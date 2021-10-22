@@ -19,7 +19,7 @@ class CreateDeliveryCompaniesTable extends Migration
             $table->string('address')->nullable();
             $table->string('phone_number')->nullable();
             $table->boolean('status')->default(0);
-            // $table->string('tbn')->nullable();
+            $table->float('delivery_charge')->nullable();
             // $table->string('tbn')->nullable();
             // $table->string('tbn')->nullable();
             // $table->string('tbn')->nullable();
