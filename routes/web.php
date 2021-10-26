@@ -25,18 +25,18 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [DashboardCon
 
 //  SUPER ADMIN ROUTES START
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/delivery-companies', [SuperAdminController::class, 'DeliveryCompanies'])->name('delivery-companies');
+Route::middleware(['auth:sanctum', 'verified', 'supmin'])->get('/delivery-companies', [SuperAdminController::class, 'DeliveryCompanies'])->name('delivery-companies');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/del-com-list', [DeliveryCompanyController::class, 'DeliveryCompanies'])->name('del-com-list');
+Route::middleware(['auth:sanctum', 'verified', 'supmin'])->get('/del-com-list', [DeliveryCompanyController::class, 'DeliveryCompanies'])->name('del-com-list');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/add-del-com', [DeliveryCompanyController::class, 'AddDeliveryCompanies'])->name('add-del-com');
+Route::middleware(['auth:sanctum', 'verified', 'supmin'])->get('/add-del-com', [DeliveryCompanyController::class, 'AddDeliveryCompanies'])->name('add-del-com');
 
-Route::middleware(['auth:sanctum', 'verified'])->post('/add-del-com', [DeliveryCompanyController::class, 'InsertDelComList'])->name('add-del-com');
+Route::middleware(['auth:sanctum', 'verified', 'supmin'])->post('/add-del-com', [DeliveryCompanyController::class, 'InsertDelComList'])->name('add-del-com');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/category-list', [DeliveryCompanyController::class, 'CategoryList'])->name('category-list');
+Route::middleware(['auth:sanctum', 'verified', 'supmin'])->get('/category-list', [DeliveryCompanyController::class, 'CategoryList'])->name('category-list');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/add-category', [DeliveryCompanyController::class, 'AddCategory'])->name('add-category');
+Route::middleware(['auth:sanctum', 'verified', 'supmin'])->get('/add-category', [DeliveryCompanyController::class, 'AddCategory'])->name('add-category');
 
-Route::middleware(['auth:sanctum', 'verified'])->post('/add-category', [DeliveryCompanyController::class, 'InsertCategory'])->name('add-category');
+Route::middleware(['auth:sanctum', 'verified', 'supmin'])->post('/add-category', [DeliveryCompanyController::class, 'InsertCategory'])->name('add-category');
 
 //  SUPER ADMIN ROUTES END

@@ -9,8 +9,6 @@ class DashboardController extends Controller
 {
     public function Dashboard($value='')
     {
-        if (Auth::user()->role == "supmin") {
             return view('supmin.index');
-        }
     }
 }
