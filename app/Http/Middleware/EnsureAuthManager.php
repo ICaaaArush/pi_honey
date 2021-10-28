@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Auth;
 
-class SuperAdmin
+class EnsureAuthManager
 {
     /**
      * Handle an incoming request.
@@ -17,11 +17,11 @@ class SuperAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        //  IF ADMIN
-        if(Auth::user()->role == 'supmin'){
+        if (Auth::user()->role == 'manager'){
             return $next($request);
         }else{
             return back();
         }
+        
     }
 }

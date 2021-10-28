@@ -7,15 +7,47 @@
 @section('content')
 
 <div class="form-control">
-  <form action="{{route('add-category')}}" method="post">
+  <form action="{{route('add-del-com')}}" method="post">
     @csrf
     <br>
     <br>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="category">Category Name</label>
-        <input type="text" class="form-control" id="category" name="category_name" placeholder="Enter Category">
+        <label for="inputEmail4">Product Name</label>
+        <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="Enter Name">
       </div>
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">Quantity</label>
+        <input type="tel" class="form-control" id="inputPassword4" name="quantity" placeholder="Enter Number">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputAddress">Supplier Name</label>
+      <input type="text" class="form-control" id="inputAddress" name="supplier_name" placeholder="Enter Address">
+    </div>
+    <div class="form-group">
+      <label for="inputAddress2">Supplier Tell</label>
+      <input type="number" step="0.01" class="form-control" id="inputAddress2" name="supplier_tell" placeholder="Enter Charge">
+    </div>
+    <div class="form-group">
+      <label for="inputAddress2">Costing</label>
+      <input type="number" step="0.01" class="form-control" id="inputAddress2" name="costing" placeholder="Enter Charge">
+    </div>
+    <div class="form-group">
+      <label for="inputAddress2">Price</label>
+      <input type="number" step="0.01" class="form-control" id="inputAddress2" name="price" placeholder="Enter Charge">
+    </div>
+    <div class="form-group">
+      <label for="inputAddress2">Profit</label>
+      <input type="number" step="0.01" class="form-control" id="inputAddress2" name="profit" placeholder="Enter Charge">
+    </div>
+    <div class="form-group">
+      <label for="inputAddress2">Category</label>
+      <input type="select" class="form-control" id="inputAddress2" name="category_id" placeholder="Enter Charge">
+    </div>
+    <div class="form-group">
+      <label for="inputAddress2">Barcode</label>
+      <input type="number" step="0.01" class="form-control" id="inputAddress2" name="qr_code" placeholder="Enter Charge">
     </div>
     <button type="submit" class="btn btn-primary">Add</button>
   </form>
