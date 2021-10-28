@@ -7,10 +7,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeliveryCompanyController;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\SupplyHandlerController;
 
 
 use App\Http\Middleware\SuperAdmin;
 use App\Http\Middleware\EnsureAuthManager;
+use App\Http\Middleware\UserIsSupplyHander;
+
 
 
 
@@ -66,15 +69,30 @@ Route::middleware(['auth:sanctum', 'verified', 'supmin'])->post('/add-category',
 
 //  MANAGER ROUTES START
 //  CHECK IF ADMIN
-Route::middleware([EnsureAuthManager::class])->group(function () {
+Route::middleware([UserIsSupplyHander::class])->group(function () {
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/add-product', [ManagerController::class, 'AddProduct'])->name('add-product');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/add-product', [ManagerController::class, 'AddProduct'])->name('add-product');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/product-list', [ManagerController::class, 'ProductList'])->name('product-list');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/product-list', [ManagerController::class, 'ProductList'])->name('product-list');
 
 
 });
 //  MANAGER ROUTES END
+
+
+//  SUPPLY HANDLER ROUTES START
+//  CHECK IF SUPPLYHANDLER
+Route::middleware([UserIsSupplyHander::class])->group(function () {
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/add-product', [SupplyHandlerController::class, 'AddProduct'])->name('add-product');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/product-list', [SupplyHandlerController::class, 'ProductList'])->name('product-list');
+
+
+});
+
+//  SUPPLY HANDLER ROUTES END
+
 
 //  COMMON ROUTES
 
