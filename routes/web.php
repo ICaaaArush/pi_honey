@@ -69,7 +69,7 @@ Route::middleware(['auth:sanctum', 'verified', 'supmin'])->post('/add-category',
 
 //  MANAGER ROUTES START
 //  CHECK IF ADMIN
-Route::middleware([UserIsSupplyHander::class])->group(function () {
+Route::middleware([EnsureAuthManager::class])->group(function () {
 
 // Route::middleware(['auth:sanctum', 'verified'])->get('/add-product', [ManagerController::class, 'AddProduct'])->name('add-product');
 
@@ -86,6 +86,8 @@ Route::middleware([UserIsSupplyHander::class])->group(function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/add-product', [SupplyHandlerController::class, 'AddProduct'])->name('add-product');
 
+Route::middleware(['auth:sanctum', 'verified'])->post('/insert-product', [SupplyHandlerController::class, 'InsertProduct'])->name('insert-product');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/product-list', [SupplyHandlerController::class, 'ProductList'])->name('product-list');
 
 
@@ -97,3 +99,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/product-list', [SupplyHan
 //  COMMON ROUTES
 
 Route::get('/logout', [CommonController::class, 'Logout'])->name('logout');
+
+Route::get('/delete/{id}', [CommonController::class, 'DeleteProduct'])->name('delete');

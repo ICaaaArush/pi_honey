@@ -6,7 +6,7 @@
 
 @section('content')
 
-<div class="form-control">
+<div class="container-fluid">
   <form action="{{route('add-category')}}" method="post">
     @csrf
     <br>

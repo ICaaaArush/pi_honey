@@ -6,8 +6,8 @@
 
 @section('content')
 
-<div class="form-control">
-  <form action="{{route('add-del-com')}}" method="post">
+<div class="container-fluid">
+  <form action="{{route('insert-product')}}" method="post">
     @csrf
     <br>
     <br>
@@ -50,7 +50,7 @@
         <label for="inputAddress2">Category</label>
         <select type="select" class="form-control" id="inputAddress2" name="category_id" placeholder="Enter Category">
           @foreach($categories as $category)
-          <option>{{$category->category_name}}</option>
+          <option value="{{$category->id}}">{{$category->category_name}}</option>
           @endforeach
         </select>
       </div>

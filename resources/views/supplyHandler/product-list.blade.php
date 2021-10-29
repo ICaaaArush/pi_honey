@@ -7,16 +7,22 @@
 @section('content')
 
 
-<div class="content form-control">
+<div class="container-fluid">
   <br><br>
   <table class="table table-hover">
   <thead>
     <tr>
       <th scope="col">ID</th>
-      <th scope="col">Company Name</th>
-      <th scope="col">Address</th>
-      <th scope="col">Phone Number</th>
-      <th scope="col">Delivery Charge</th>
+      <th scope="col">Name</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Supplier Name</th>
+      <th scope="col">Supplier Tell</th>
+      <th scope="col">Costing</th>
+      <th scope="col">Price</th>
+      <th scope="col">Profit</th>
+      <th scope="col">Category Id</th>
+      <th scope="col">Sub Category Id</th>
+      <th scope="col">Bar Code</th>
       <th scope="col">Delete</th>
     </tr>
   </thead>
@@ -24,14 +30,20 @@
   <tbody>
     <tr>
       <th scope="row">{{$listing->id}}</th>
-      <td>{{$listing->company_name}}</td>
-      <td>{{$listing->phone_number}}</td>
-      <td>{{$listing->address}}</td>
-      <td>{{$listing->delivery_charge}}</td>
-      <td><button id="remove" class="btn btn-danger" disabled>
-      <i class="fa fa-trash"></i> Delete
-    </button>
-</td>
+      <td>{{$listing->name}}</td>
+      <td>{{$listing->quantity}}</td>
+      <td>{{$listing->supplier_name}}</td>
+      <td>{{$listing->supplier_tell}}</td>
+      <td>{{$listing->costing}}</td>
+      <td>{{$listing->price}}</td>
+      <td>{{$listing->profit}}</td>
+      <td>{{$listing->category_id}}</td>
+      <td>{{$listing->sub_category_id}}</td>
+      <td>{{$listing->qr_code}}</td>
+      <td>
+        
+          <a href="{{route('delete',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
+      </td>
     </tr>
   </tbody>
   @endforeach
@@ -121,7 +133,24 @@
 
 @endsection
 
+
 @section('scripts')
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
 @endsection
 
 @section('js')
@@ -265,7 +294,14 @@
 
     $('#locale').change(initTable)
   })
+
+  function deleteFunction(id) {
+     // body...
+  }
+
+
 </script>
 
 
 @endsection
+

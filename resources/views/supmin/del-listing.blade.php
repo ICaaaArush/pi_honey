@@ -7,7 +7,7 @@
 @section('content')
 
 
-<div class="content form-control">
+<div class="content container-fluid">
   <br><br>
   <table class="table table-hover">
   <thead>
