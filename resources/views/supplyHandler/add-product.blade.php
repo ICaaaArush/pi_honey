@@ -7,7 +7,7 @@
 @section('content')
 
 <div class="container-fluid">
-  <form action="{{route('sh-insert-product')}}" method="post">
+  <form action="{{route('insert-product')}}" method="post">
     @csrf
     <br>
     <br>
@@ -36,7 +36,7 @@
         <label for="inputAddress2">Costing</label>
         <input type="number" step="0.01" class="form-control" id="inputAddress2" name="costing" placeholder="Enter Costing">
       </div> -->
-      <div class="form-group col-md-12">
+      <div class="form-group col-md-6">
         <label for="inputAddress2">Price</label>
         <input type="number" step="0.01" class="form-control" id="inputAddress2" name="price" placeholder="Enter Price">
       </div>

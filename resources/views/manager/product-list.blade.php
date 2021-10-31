@@ -13,7 +13,7 @@
   <thead>
     <tr>
       <th scope="col">ID</th>
-      <th scope="col">Company Name</th>
+      <th scope="col">Name</th>
       <th scope="col">Address</th>
       <th scope="col">Phone Number</th>
       <th scope="col">Delivery Charge</th>
@@ -28,10 +28,9 @@
       <td>{{$listing->phone_number}}</td>
       <td>{{$listing->address}}</td>
       <td>{{$listing->delivery_charge}}</td>
-      <td><button id="remove" class="btn btn-danger" disabled>
-      <i class="fa fa-trash"></i> Delete
-    </button>
-</td>
+      <td>
+        <a href="{{route('delete',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
+      </td>
     </tr>
   </tbody>
   @endforeach

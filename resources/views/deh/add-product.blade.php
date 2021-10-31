@@ -52,7 +52,7 @@
         </select>
       </div>
       <div class="form-group col-md-6">
-        <label for="inputAddress2">Category</label>
+        <label for="inputAddress2">Sub Category</label>
         <select type="select" class="form-control" id="inputAddress2" name="category_id" placeholder="Enter Category">
           @foreach($categories as $category)
           <option value="{{$category->id}}">{{$category->category_name}}</option>
@@ -67,6 +67,8 @@
     <button type="submit" class="btn btn-primary">Add</button>
   </form>
 </div>
+
+
 
 @endsection
 
@@ -213,5 +215,13 @@
   })
 </script>
 
-
+<script>
+$(document).ready(function(){
+  $('.dropdown-submenu a.test').on("click", function(e){
+    $(this).next('ul').toggle();
+    e.stopPropagation();
+    e.preventDefault();
+  });
+});
+</script>
 @endsection

@@ -28,10 +28,9 @@
       <td>{{$listing->phone_number}}</td>
       <td>{{$listing->address}}</td>
       <td>{{$listing->delivery_charge}}</td>
-      <td><button id="remove" class="btn btn-danger" disabled>
-      <i class="fa fa-trash"></i> Delete
-    </button>
-</td>
+      <td>
+        <a href="{{route('delete-del',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
+      </td>
     </tr>
   </tbody>
   @endforeach

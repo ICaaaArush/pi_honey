@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
+use App\Models\DeliveryCompany;
+use App\Models\Category;
 
 class CommonController extends Controller
 {
@@ -21,6 +23,18 @@ class CommonController extends Controller
     public function DeleteProduct($id)
     {
         Product::where('id', $id)->delete();
+
+        return redirect()->back();
+    }
+    public function DeleteCategory($id)
+    {
+        Category::where('id', $id)->delete();
+
+        return redirect()->back();
+    }
+    public function DeleteDeliveryCompany($id)
+    {
+        DeliveryCompany::where('id', $id)->delete();
 
         return redirect()->back();
     }

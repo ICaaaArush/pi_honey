@@ -23,9 +23,8 @@
     <tr>
       <th scope="row">{{$listing->id}}</th>
       <td>{{$listing->category_name}}</td>
-      <td><button class="btn btn-danger" >
-        <i class="fa fa-trash"></i> Delete
-        </button>
+      <td>
+        <a href="{{route('delete-cat',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
       </td>
       <td><button class="btn btn-success" >
         <i class="fa fa-pen"></i> Edit
