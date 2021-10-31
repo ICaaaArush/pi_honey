@@ -1,13 +1,10 @@
 @extends('layouts.main')
 
-@section('header')
-
-@endsection
 
 @section('content')
 
 <div class="container-fluid">
-  <form action="{{route('sh-insert-product')}}" method="post">
+  <form action="{{route('de-insert-product')}}" method="post">
     @csrf
     <br>
     <br>
@@ -36,7 +33,7 @@
         <label for="inputAddress2">Costing</label>
         <input type="number" step="0.01" class="form-control" id="inputAddress2" name="costing" placeholder="Enter Costing">
       </div> -->
-      <div class="form-group col-md-12">
+      <div class="form-group col-md-6">
         <label for="inputAddress2">Price</label>
         <input type="number" step="0.01" class="form-control" id="inputAddress2" name="price" placeholder="Enter Price">
       </div>
@@ -45,6 +42,14 @@
       <div class="form-group col-md-6">
         <label for="inputAddress2">Profit</label>
         <input type="number" step="0.01" class="form-control" id="inputAddress2" name="profit" placeholder="Enter Profit">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputAddress2">Category</label>
+        <select type="select" class="form-control" id="inputAddress2" name="category_id" placeholder="Enter Category">
+          @foreach($categories as $category)
+          <option value="{{$category->id}}">{{$category->category_name}}</option>
+          @endforeach
+        </select>
       </div>
       <div class="form-group col-md-6">
         <label for="inputAddress2">Category</label>

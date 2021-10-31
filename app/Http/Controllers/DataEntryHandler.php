@@ -7,14 +7,14 @@ use App\Models\Product;
 use App\Models\DeliveryCompany;
 use App\Models\Category;
 
-class SupplyHandlerController extends Controller
+class DataEntryHandler extends Controller
 {
     public function ProductList()
     {
         $listings = Product::paginate(25);
 
         //  VIEW PRODUCTS
-        return view('supplyHandler.product-list',compact('listings'));
+        return view('deh.product-list',compact('listings'));
     }
 
     public function AddProduct()
@@ -23,7 +23,7 @@ class SupplyHandlerController extends Controller
         $categories = Category::get();
 
         //  VIEW ADD PRODUCTS PAGE
-        return view('supplyHandler.add-product', compact('listings','categories'));
+        return view('deh.add-product', compact('listings','categories'));
     }
 
     public function InsertProduct(Request $request)
@@ -35,11 +35,11 @@ class SupplyHandlerController extends Controller
         $product->quantity = $request->input('quantity');
         $product->supplier_name = $request->input('supplier_name');
         $product->supplier_tell = $request->input('supplier_tell');
-        // $product->costing = $request->input('costing');
+        $product->costing = $request->input('costing');
         $product->price = $request->input('price');
         $product->profit = $request->input('profit');
         $product->category_id = $request->input('category_id');
-        // $product->sub_category_id = $request->input('sub_category_id');
+        $product->sub_category_id = $request->input('sub_category_id');
         $product->qr_code = $request->input('qr_code');
 
 

@@ -23,6 +23,10 @@
 
 @endsection
 
+@section('scripts')
+
+@endsection
+
 @section('js')
 
 <script>
