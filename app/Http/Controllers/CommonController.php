@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\DeliveryCompany;
 use App\Models\Category;
+use App\Models\SupplierDetail;
 
 class CommonController extends Controller
 {
@@ -35,6 +36,12 @@ class CommonController extends Controller
     public function DeleteDeliveryCompany($id)
     {
         DeliveryCompany::where('id', $id)->delete();
+
+        return redirect()->back();
+    }
+    public function DeleteSupplier($id)
+    {
+        SupplierDetail::where('id', $id)->delete();
 
         return redirect()->back();
     }

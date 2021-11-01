@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\DeliveryCompany;
 use App\Models\Category;
+use App\Models\SupplierDetail;
+
 
 class DataEntryHandler extends Controller
 {
@@ -21,9 +23,10 @@ class DataEntryHandler extends Controller
     {
         $listings = Product::paginate(25);
         $categories = Category::get();
+        $suppliers = SupplierDetail::get();
 
         //  VIEW ADD PRODUCTS PAGE
-        return view('deh.add-product', compact('listings','categories'));
+        return view('deh.add-product', compact('listings','categories','suppliers'));
     }
 
     public function InsertProduct(Request $request)
@@ -46,5 +49,13 @@ class DataEntryHandler extends Controller
         $product->save();
 
         return back()->with('message', 'Product Uploaded Successfully!');
+    }
+
+    public function ProductSort($id)
+    {
+        $product = Product::find($id);
+
+        //  VIEW UNSORTED PRODUCT
+        return view('deh.sort-product', compact('product'));
     }
 }

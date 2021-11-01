@@ -17,8 +17,6 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->integer('quantity')->nullable();
-            $table->string('supplier_name')->nullable();
-            $table->string('supplier_tell')->nullable();
             $table->float('costing')->nullable();
             $table->float('price')->nullable();
             $table->float('profit')->nullable();
@@ -29,6 +27,10 @@ class CreateProductsTable extends Migration
             $table->string('bar_code_sh')->nullable(); // SH = SUPPLYHANDLER
             $table->string('bar_code_deh')->nullable(); // DEH = DATAENTRYHANDLER
             $table->string('bar_code_ma')->nullable(); // MA = MANAGER
+            $table->boolean('status')->default(0);
+            $table->string('delivery_method')->nullable();
+            $table->unsignedBigInteger('supplier_id')->nullable();;
+            $table->foreign('supplier_id')->references('id')->on('supplier_details');
             $table->timestamps();
         });
     }

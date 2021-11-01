@@ -14,7 +14,7 @@ use App\Http\Controllers\DataEntryHandler;
 use App\Http\Middleware\SuperAdmin;
 use App\Http\Middleware\EnsureAuthManager;
 use App\Http\Middleware\UserIsSupplyHander;
-
+use App\Http\Middleware\UserIsDataEntryHandler;
 
 
 
@@ -93,6 +93,11 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/sh-insert-product', [Sup
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/sh-product-list', [SupplyHandlerController::class, 'ProductList'])->name('sh-product-list');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/sh-add-supplier', [SupplyHandlerController::class, 'AddSupplier'])->name('sh-add-supplier');
+
+Route::middleware(['auth:sanctum', 'verified'])->post('/sh-insert-supplier', [SupplyHandlerController::class, 'InsertSupplier'])->name('sh-insert-supplier');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/sh-supplier-list', [SupplyHandlerController::class, 'SupplierList'])->name('sh-supplier-list');
 
 // });
 
@@ -108,7 +113,7 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/de-insert-product', [Dat
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/de-product-list', [DataEntryHandler::class, 'ProductList'])->name('de-product-list');
 
-
+Route::middleware(['auth:sanctum', 'verified'])->get('/sort/{id}', [DataEntryHandler::class, 'ProductSort'])->name('sort');
 });
 
 //  SUPPLY HANDLER ROUTES END
@@ -123,3 +128,5 @@ Route::get('/delete/{id}', [CommonController::class, 'DeleteProduct'])->name('de
 Route::get('/delete-del/{id}', [CommonController::class, 'DeleteDeliveryCompany'])->name('delete-del');
 
 Route::get('/delete-cat/{id}', [CommonController::class, 'DeleteCategory'])->name('delete-cat');
+
+Route::get('/delete-supplier/{id}', [CommonController::class, 'DeleteSupplier'])->name('delete-supplier');

@@ -135,6 +135,8 @@
                         <!-- <h6 class="collapse-header">Custom Utilities:</h6> -->
                         <a class="collapse-item" href="{{route('sh-add-product')}}">Add Product</a>
                         <a class="collapse-item" href="{{route('sh-product-list')}}">Product List</a>
+                        <a class="collapse-item" href="{{route('sh-add-supplier')}}">Add Supplier</a>
+                        <a class="collapse-item" href="{{route('sh-supplier-list')}}">Supplier List</a>
                     </div>
                 </div>
             </li>

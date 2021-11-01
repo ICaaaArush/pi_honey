@@ -13,16 +13,9 @@
   <thead>
     <tr>
       <th scope="col">ID</th>
-      <th scope="col">Name</th>
-      <th scope="col">Quantity</th>
       <th scope="col">Supplier Name</th>
       <th scope="col">Supplier Tell</th>
-      <th scope="col">Costing</th>
-      <th scope="col">Price</th>
-      <th scope="col">Profit</th>
-      <th scope="col">Category Id</th>
-      <th scope="col">Sub Category Id</th>
-      <th scope="col">Bar Code</th>
+      <th scope="col">Supplier Address</th>
       <th scope="col">Delete</th>
     </tr>
   </thead>
@@ -30,26 +23,12 @@
   <tbody>
     <tr>
       <th scope="row">{{$listing->id}}</th>
-      <td>{{$listing->name}}</td>
-      <td>{{$listing->quantity}}</td>
       <td>{{$listing->supplier_name}}</td>
       <td>{{$listing->supplier_tell}}</td>
-      <td>{{$listing->costing}}</td>
-      <td>
-        <form class="container-fluid" action="{{route('ma-save-price')}}" method="post">
-          @csrf
-          <input type="hidden" name="productId" value="{{$listing->id}}">
-          <input type="text" name="price" id="price" value="{{$listing->price}}">
-          <button type="btn btn-danger" id="butsave">Set Price</button>
-        </form>
-      </td>
-      <td>{{$listing->profit}}</td>
-      <td>{{$listing->category_id}}</td>
-      <td>{{$listing->sub_category_id}}</td>
-      <td>{{$listing->bar_code_ma}}</td>
+      <td>{{$listing->address}}</td>
       <td>
         
-          <a href="{{route('delete',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
+          <a href="{{route('delete-supplier',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
       </td>
     </tr>
   </tbody>
@@ -141,6 +120,24 @@
 @endsection
 
 
+@section('scripts')
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
+@endsection
 
 @section('js')
 
@@ -287,9 +284,6 @@
   function deleteFunction(id) {
      // body...
   }
-
-
-
 
 
 </script>

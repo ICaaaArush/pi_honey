@@ -20,12 +20,12 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="inputAddress">Supplier Name</label>
-        <input type="text" class="form-control" id="inputAddress" name="supplier_name" placeholder="Enter Address">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="inputAddress2">Supplier Tell</label>
-        <input type="tel" class="form-control" id="inputAddress2" name="supplier_tell" placeholder="Enter Supplier Tell">
+        <label for="inputAddress">Supplier</label>
+        <select type="select" class="form-control" id="inputAddress2" name="category_id" placeholder="Enter Category">
+          @foreach($suppliers as $supplier)
+          <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
+          @endforeach
+        </select>
       </div>
     </div>
     <div class="form-row">

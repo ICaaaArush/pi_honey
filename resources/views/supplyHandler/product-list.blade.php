@@ -15,8 +15,7 @@
       <th scope="col">ID</th>
       <th scope="col">Name</th>
       <th scope="col">Quantity</th>
-      <th scope="col">Supplier Name</th>
-      <th scope="col">Supplier Tell</th>
+      <th scope="col">Supplier Id</th>
       <th scope="col">Costing</th>
       <th scope="col">Price</th>
       <th scope="col">Profit</th>
@@ -32,14 +31,13 @@
       <th scope="row">{{$listing->id}}</th>
       <td>{{$listing->name}}</td>
       <td>{{$listing->quantity}}</td>
-      <td>{{$listing->supplier_name}}</td>
-      <td>{{$listing->supplier_tell}}</td>
+      <td>{{$listing->supplier_id}}</td>
       <td>{{$listing->costing}}</td>
       <td>{{$listing->price}}</td>
       <td>{{$listing->profit}}</td>
       <td>{{$listing->category_id}}</td>
       <td>{{$listing->sub_category_id}}</td>
-      <td>{{$listing->qr_code}}</td>
+      <td>{{$listing->bar_code_sh}}</td>
       <td>
         
           <a href="{{route('delete',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>

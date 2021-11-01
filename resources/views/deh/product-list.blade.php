@@ -15,15 +15,14 @@
       <th scope="col">ID</th>
       <th scope="col">Name</th>
       <th scope="col">Quantity</th>
-      <th scope="col">Supplier Name</th>
-      <th scope="col">Supplier Tell</th>
-      <th scope="col">Costing</th>
+      <th scope="col">Supplier</th>
       <th scope="col">Price</th>
       <th scope="col">Profit</th>
       <th scope="col">Category Id</th>
       <th scope="col">Sub Category Id</th>
-      <th scope="col">Bar Code</th>
+      <th scope="col">Status</th>
       <th scope="col">Delete</th>
+      <th scope="col">Sort</th>
     </tr>
   </thead>
   @foreach($listings as $listing)
@@ -32,14 +31,13 @@
       <th scope="row">{{$listing->id}}</th>
       <td>{{$listing->name}}</td>
       <td>{{$listing->quantity}}</td>
-      <td>{{$listing->supplier_name}}</td>
-      <td>{{$listing->supplier_tell}}</td>
-      <td>{{$listing->costing}}</td>
+      <td>{{$listing->supplier_id}}</td>
       <td>{{$listing->price}}</td>
       <td>{{$listing->profit}}</td>
       <td>{{$listing->category_id}}</td>
       <td>{{$listing->sub_category_id}}</td>
-      <td>{{$listing->qr_code}}</td>
+      <td>{{$listing->status}}</td>
+      <td><a href="{{route('sort',[$listing->id])}}" class="btn btn-danger fa fa-trash">Sort</a></td>
       <td>
         
           <a href="{{route('delete',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>

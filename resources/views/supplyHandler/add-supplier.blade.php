@@ -7,56 +7,32 @@
 @section('content')
 
 <div class="container-fluid">
-  <form action="{{route('sh-insert-product')}}" method="post">
+  <form action="{{route('sh-insert-supplier')}}" method="post">
     @csrf
     <br>
     <br>
+
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="inputEmail4">Product Name</label>
-        <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="Enter Name">
+        <label for="inputAddress">Supplier Name</label>
+        <input type="text" class="form-control" id="inputAddress" name="supplier_name" placeholder="Enter Name">
       </div>
       <div class="form-group col-md-6">
-        <label for="inputPassword4">Quantity</label>
-        <input type="number" step="0.01" class="form-control" id="inputPassword4" name="quantity" placeholder="Enter Number">
+        <label for="inputAddress2">Supplier Tell</label>
+        <input type="tel" class="form-control" id="inputAddress2" name="supplier_tell" placeholder="Enter Supplier Tell">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="inputAddress">Supplier</label>
-        <select type="select" class="form-control" id="inputAddress2" name="supplier" placeholder="Enter Category">
-          @foreach($suppliers as $supplier)
-          <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
-          @endforeach
-        </select>
-      </div>
-      <div class="form-group col-md-6">
-        <label for="inputAddress2">Costing</label>
-        <input type="number" step="0.01" class="form-control" id="inputAddress2" name="costing" placeholder="Enter Costing">
+        <label for="inputAddress2">Supplier Address</label>
+        <input type="text" step="0.01" class="form-control" id="inputAddress2" name="address" placeholder="Enter Address">
       </div>
       <!-- <div class="form-group col-md-6">
         <label for="inputAddress2">Price</label>
         <input type="number" step="0.01" class="form-control" id="inputAddress2" name="price" placeholder="Enter Price">
       </div> -->
     </div>
-    <div class="form-row">
-      <!-- <div class="form-group col-md-6">
-        <label for="inputAddress2">Profit</label>
-        <input type="number" step="0.01" class="form-control" id="inputAddress2" name="profit" placeholder="Enter Profit">
-      </div> -->
-      <div class="form-group col-md-6">
-        <label for="inputAddress2">Category</label>
-        <select type="select" class="form-control" id="inputAddress2" name="category_id" placeholder="Enter Category">
-          @foreach($categories as $category)
-          <option value="{{$category->id}}">{{$category->category_name}}</option>
-          @endforeach
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="inputAddress2">Barcode</label>
-      <input type="text" class="form-control" id="inputAddress2" name="qr_code" placeholder="Enter Barcode">
-    </div>
+
     <button type="submit" class="btn btn-primary">Add</button>
   </form>
 </div>
