@@ -7,16 +7,22 @@
 @section('content')
 
 
-<div class="content form-control">
+<div class="container-fluid">
   <br><br>
   <table class="table table-hover">
   <thead>
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Name</th>
-      <th scope="col">Address</th>
-      <th scope="col">Phone Number</th>
-      <th scope="col">Delivery Charge</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Supplier Name</th>
+      <th scope="col">Supplier Tell</th>
+      <th scope="col">Costing</th>
+      <th scope="col">Price</th>
+      <th scope="col">Profit</th>
+      <th scope="col">Category Id</th>
+      <th scope="col">Sub Category Id</th>
+      <th scope="col">Bar Code</th>
       <th scope="col">Delete</th>
     </tr>
   </thead>
@@ -24,12 +30,26 @@
   <tbody>
     <tr>
       <th scope="row">{{$listing->id}}</th>
-      <td>{{$listing->company_name}}</td>
-      <td>{{$listing->phone_number}}</td>
-      <td>{{$listing->address}}</td>
-      <td>{{$listing->delivery_charge}}</td>
+      <td>{{$listing->name}}</td>
+      <td>{{$listing->quantity}}</td>
+      <td>{{$listing->supplier_name}}</td>
+      <td>{{$listing->supplier_tell}}</td>
+      <td>{{$listing->costing}}</td>
       <td>
-        <a href="{{route('delete',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
+        <form class="container-fluid" action="{{route('ma-save-price')}}" method="post">
+          @csrf
+          <input type="hidden" name="productId" value="{{$listing->id}}">
+          <input type="text" name="price" id="price" value="{{$listing->price}}">
+          <button type="btn btn-danger" id="butsave">Set Price</button>
+        </form>
+      </td>
+      <td>{{$listing->profit}}</td>
+      <td>{{$listing->category_id}}</td>
+      <td>{{$listing->sub_category_id}}</td>
+      <td>{{$listing->qr_code}}</td>
+      <td>
+        
+          <a href="{{route('delete',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
       </td>
     </tr>
   </tbody>
@@ -120,8 +140,7 @@
 
 @endsection
 
-@section('scripts')
-@endsection
+
 
 @section('js')
 
@@ -264,7 +283,17 @@
 
     $('#locale').change(initTable)
   })
+
+  function deleteFunction(id) {
+     // body...
+  }
+
+
+
+
+
 </script>
 
 
 @endsection
+

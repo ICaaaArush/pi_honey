@@ -76,7 +76,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/ma-add-product', [Manager
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/ma-product-list', [ManagerController::class, 'ProductList'])->name('ma-product-list');
 
+Route::middleware(['auth:sanctum', 'verified'])->post('/ma-insert-product', [ManagerController::class, 'InsertProduct'])->name('ma-insert-product');
 
+Route::middleware(['auth:sanctum', 'verified'])->post('/ma-save-price', [ManagerController::class, 'InsertPrice'])->name('ma-save-price');
 // });
 //  MANAGER ROUTES END
 
@@ -96,9 +98,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/sh-product-list', [Supply
 
 //  SUPPLY HANDLER ROUTES END
 
-//  SUPPLY HANDLER ROUTES START
-//  CHECK IF SUPPLYHANDLER
-// Route::middleware([UserIsSupplyHander::class])->group(function () {
+//  DATA ENTRY ROUTES START
+//  CHECK IF DATA ENTRY
+Route::middleware([UserIsDataEntryHandler::class])->group(function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/de-add-product', [DataEntryHandler::class, 'AddProduct'])->name('de-add-product');
 
@@ -107,7 +109,7 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/de-insert-product', [Dat
 Route::middleware(['auth:sanctum', 'verified'])->get('/de-product-list', [DataEntryHandler::class, 'ProductList'])->name('de-product-list');
 
 
-// });
+});
 
 //  SUPPLY HANDLER ROUTES END
 

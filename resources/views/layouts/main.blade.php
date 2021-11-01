@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
@@ -25,8 +25,8 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('css/sb-admin-2.min.css')}}" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="extensions/filter-control/bootstrap-table-filter-control.css">
-    <script src="extensions/filter-control/bootstrap-table-filter-control.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('extensions/filter-control/bootstrap-table-filter-control.css')}}">
+    <script src="{{asset('extensions/filter-control/bootstrap-table-filter-control.js')}}"></script>
 
     <link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
 
@@ -152,6 +152,24 @@
                         <!-- <h6 class="collapse-header">Custom Utilities:</h6> -->
                         <a class="collapse-item" href="{{route('de-add-product')}}">Add Product</a>
                         <a class="collapse-item" href="{{route('de-product-list')}}">Product List</a>
+                    </div>
+                </div>
+            </li>
+
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities5"
+                    aria-expanded="true" aria-controls="collapseUtilities5">
+                    <i class="fa fa-list-alt"></i>
+                    <span>Manager Products</span>
+                </a>
+                <div id="collapseUtilities5" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <!-- <h6 class="collapse-header">Custom Utilities:</h6> -->
+                        <a class="collapse-item" href="{{route('ma-add-product')}}">Add Product</a>
+                        <a class="collapse-item" href="{{route('ma-product-list')}}">Product List</a>
                     </div>
                 </div>
             </li>
@@ -428,9 +446,7 @@
             </div>
         </div>
     </div>
-
-<!-- FOR SCRIPTS -->
-@yield('scripts')
+    
 <!-- Bootstrap core JavaScript-->
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -447,6 +463,9 @@
 <!-- Page level custom scripts -->
 <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
 <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
+<!-- FOR SCRIPTS -->
+@yield('scripts')
+
 @yield('js')
 
 </body>

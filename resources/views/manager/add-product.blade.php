@@ -1,13 +1,10 @@
 @extends('layouts.main')
 
-@section('header')
-
-@endsection
 
 @section('content')
 
-<div class="form-control">
-  <form action="{{route('add-del-com')}}" method="post">
+<div class="container-fluid">
+  <form action="{{route('de-insert-product')}}" method="post">
     @csrf
     <br>
     <br>
@@ -18,40 +15,60 @@
       </div>
       <div class="form-group col-md-6">
         <label for="inputPassword4">Quantity</label>
-        <input type="tel" class="form-control" id="inputPassword4" name="quantity" placeholder="Enter Number">
+        <input type="number" step="0.01" class="form-control" id="inputPassword4" name="quantity" placeholder="Enter Number">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputAddress">Supplier Name</label>
+        <input type="text" class="form-control" id="inputAddress" name="supplier_name" placeholder="Enter Address">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputAddress2">Supplier Tell</label>
+        <input type="tel" class="form-control" id="inputAddress2" name="supplier_tell" placeholder="Enter Supplier Tell">
+      </div>
+    </div>
+    <div class="form-row">
+      <!-- <div class="form-group col-md-6">
+        <label for="inputAddress2">Costing</label>
+        <input type="number" step="0.01" class="form-control" id="inputAddress2" name="costing" placeholder="Enter Costing">
+      </div> -->
+      <div class="form-group col-md-6">
+        <label for="inputAddress2">Price</label>
+        <input type="number" step="0.01" class="form-control" id="inputAddress2" name="price" placeholder="Enter Price">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputAddress2">Profit</label>
+        <input type="number" step="0.01" class="form-control" id="inputAddress2" name="profit" placeholder="Enter Profit">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputAddress2">Category</label>
+        <select type="select" class="form-control" id="inputAddress2" name="category_id" placeholder="Enter Category">
+          @foreach($categories as $category)
+          <option value="{{$category->id}}">{{$category->category_name}}</option>
+          @endforeach
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputAddress2">Sub Category</label>
+        <select type="select" class="form-control" id="inputAddress2" name="category_id" placeholder="Enter Category">
+          @foreach($categories as $category)
+          <option value="{{$category->id}}">{{$category->category_name}}</option>
+          @endforeach
+        </select>
       </div>
     </div>
     <div class="form-group">
-      <label for="inputAddress">Supplier Name</label>
-      <input type="text" class="form-control" id="inputAddress" name="supplier_name" placeholder="Enter Address">
-    </div>
-    <div class="form-group">
-      <label for="inputAddress2">Supplier Tell</label>
-      <input type="number" step="0.01" class="form-control" id="inputAddress2" name="supplier_tell" placeholder="Enter Charge">
-    </div>
-    <div class="form-group">
-      <label for="inputAddress2">Costing</label>
-      <input type="number" step="0.01" class="form-control" id="inputAddress2" name="costing" placeholder="Enter Charge">
-    </div>
-    <div class="form-group">
-      <label for="inputAddress2">Price</label>
-      <input type="number" step="0.01" class="form-control" id="inputAddress2" name="price" placeholder="Enter Charge">
-    </div>
-    <div class="form-group">
-      <label for="inputAddress2">Profit</label>
-      <input type="number" step="0.01" class="form-control" id="inputAddress2" name="profit" placeholder="Enter Charge">
-    </div>
-    <div class="form-group">
-      <label for="inputAddress2">Category</label>
-      <input type="select" class="form-control" id="inputAddress2" name="category_id" placeholder="Enter Charge">
-    </div>
-    <div class="form-group">
       <label for="inputAddress2">Barcode</label>
-      <input type="number" step="0.01" class="form-control" id="inputAddress2" name="qr_code" placeholder="Enter Charge">
+      <input type="text" class="form-control" id="inputAddress2" name="qr_code" placeholder="Enter Barcode">
     </div>
     <button type="submit" class="btn btn-primary">Add</button>
   </form>
 </div>
+
+
 
 @endsection
 
@@ -198,5 +215,13 @@
   })
 </script>
 
-
+<script>
+$(document).ready(function(){
+  $('.dropdown-submenu a.test').on("click", function(e){
+    $(this).next('ul').toggle();
+    e.stopPropagation();
+    e.preventDefault();
+  });
+});
+</script>
 @endsection

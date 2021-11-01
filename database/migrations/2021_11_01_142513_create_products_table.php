@@ -26,7 +26,9 @@ class CreateProductsTable extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->nullable();
             $table->unsignedBigInteger('sub_category_id')->nullable();;
             $table->foreign('sub_category_id')->references('id')->on('sub_categories')->nullable();
-            $table->string('qr_code')->nullable();
+            $table->string('bar_code_sh')->nullable(); // SH = SUPPLYHANDLER
+            $table->string('bar_code_deh')->nullable(); // DEH = DATAENTRYHANDLER
+            $table->string('bar_code_ma')->nullable(); // MA = MANAGER
             $table->timestamps();
         });
     }
