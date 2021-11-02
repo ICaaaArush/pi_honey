@@ -16,7 +16,7 @@ class DataEntryHandler extends Controller
         $listings = Product::paginate(25);
 
         //  VIEW PRODUCTS
-        return view('deh.product-list',compact('listings'));
+        return view('front.deh.product-list',compact('listings'));
     }
 
     public function AddProduct()
@@ -26,7 +26,7 @@ class DataEntryHandler extends Controller
         $suppliers = SupplierDetail::get();
 
         //  VIEW ADD PRODUCTS PAGE
-        return view('deh.add-product', compact('listings','categories','suppliers'));
+        return view('front.deh.add-product', compact('listings','categories','suppliers'));
     }
 
     public function InsertProduct(Request $request)
@@ -56,6 +56,6 @@ class DataEntryHandler extends Controller
         $product = Product::find($id);
 
         //  VIEW UNSORTED PRODUCT
-        return view('deh.sort-product', compact('product'));
+        return view('front.deh.sort-product', compact('product'));
     }
 }

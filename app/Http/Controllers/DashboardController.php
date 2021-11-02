@@ -9,6 +9,6 @@ class DashboardController extends Controller
 {
     public function Dashboard($value='')
     {
-            return view('supmin.index');
+            return view('front.index');
     }
 }

@@ -15,13 +15,13 @@ class DeliveryCompanyController extends Controller
         //  FETCH AND SHOW COMPANY LIST
         $listings = DeliveryCompany::paginate(25);
 
-        return view('supmin.del-listing',compact('listings'));
+        return view('front.supmin.del-listing',compact('listings'));
     }
 
     public function AddDeliveryCompanies()
     {
         //  DELIVERY COMPANY ADDING PAGE
-        return view('supmin.add-del-listing');
+        return view('front.supmin.add-del-listing');
     }
 
     public function InsertDelComList(Request $request)
@@ -44,7 +44,7 @@ class DeliveryCompanyController extends Controller
         //  FETCH AND SHOW COMPANY LIST
         $listings = Category::paginate(25);
 
-        return view('supmin.category-listing',compact('listings'));
+        return view('front.supmin.category-listing',compact('listings'));
     }
 
     public function AddCategory()
@@ -52,7 +52,7 @@ class DeliveryCompanyController extends Controller
         //  CATEGORY ADDING PAGE
         $listings = Category::paginate(25);
 
-        return view('supmin.add-category',compact('listings'));
+        return view('front.supmin.add-category',compact('listings'));
     }
 
     public function InsertCategory(Request $request)

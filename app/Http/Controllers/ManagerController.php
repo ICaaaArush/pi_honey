@@ -14,7 +14,7 @@ class ManagerController extends Controller
         $listings = Product::paginate(25);
 
         //  VIEW PRODUCTS
-        return view('manager.product-list', compact('listings'));
+        return view('front.manager.product-list', compact('listings'));
     }
 
     public function AddProduct()
@@ -24,7 +24,7 @@ class ManagerController extends Controller
         $suppliers = SupplierDetail::get();
 
         //  VIEW ADD PRODUCT PAGE WITH CATEGORIES
-        return view('manager.add-product', compact('listings','categories','suppliers'));
+        return view('front.manager.add-product', compact('listings','categories','suppliers'));
     }
 
     public function InsertProduct(Request $request)

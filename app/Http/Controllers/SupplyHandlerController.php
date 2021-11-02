@@ -7,15 +7,31 @@ use App\Models\Product;
 use App\Models\DeliveryCompany;
 use App\Models\Category;
 use App\Models\SupplierDetail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class SupplyHandlerController extends Controller
 {
     public function ProductList()
     {
-        $listings = Product::paginate(25);
+        $listings = Category::get();
+
+        foreach($listings as $product){
+                echo $product->id."<br>";
+
+            $product = $product->categoryShakaLaka;
+
+            foreach ($product as $value) {
+                echo "hello".$value->category_name;
+            }
+        }
+        exit();
+        // $listings = Product::find(1)->categoryShakaLaka()->first();
+                    dd($listings);
 
         //  VIEW PRODUCTS
-        return view('supplyHandler.product-list',compact('listings'));
+        return view('front.supplyHandler.product-list',compact('listings'));
     }
 
     public function AddProduct()
@@ -25,7 +41,7 @@ class SupplyHandlerController extends Controller
         $categories = Category::get();
 
         //  VIEW ADD PRODUCTS PAGE
-        return view('supplyHandler.add-product', compact('listings','categories','suppliers'));
+        return view('front.supplyHandler.add-product', compact('listings','categories','suppliers'));
     }
 
     public function InsertProduct(Request $request)
@@ -52,7 +68,7 @@ class SupplyHandlerController extends Controller
     public function AddSupplier()
     {
         $suppliers = SupplierDetail::get();
-        return view('supplyHandler.add-supplier', compact('suppliers'));
+        return view('front.supplyHandler.add-supplier', compact('suppliers'));
     }
 
     public function InsertSupplier(Request $request)
@@ -75,6 +91,6 @@ class SupplyHandlerController extends Controller
         $listings = SupplierDetail::get();
 
         //  VIEW SUPPLIER LIST
-        return view('supplyHandler.supplier-list', compact('listings'));
+        return view('front.supplyHandler.supplier-list', compact('listings'));
     }
 }
