@@ -15,20 +15,21 @@ class SupplyHandlerController extends Controller
 {
     public function ProductList()
     {
-        $listings = Category::get();
+        $listings = Product::get();
 
+        // dd($listings);
+
+        //  Doing this to make sure the relationship works
         foreach($listings as $product){
-                echo $product->id."<br>";
 
-            $product = $product->categoryShakaLaka;
+            echo $product->id."<br>";
 
-            foreach ($product as $value) {
+            foreach ($product->category as $value) {
                 echo "hello".$value->category_name;
             }
         }
         exit();
         // $listings = Product::find(1)->categoryShakaLaka()->first();
-                    dd($listings);
 
         //  VIEW PRODUCTS
         return view('front.supplyHandler.product-list',compact('listings'));

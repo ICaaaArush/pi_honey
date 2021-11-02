@@ -2,7 +2,7 @@
 
 @section('content')
 
-      <div class="page-wrapper pt-0">
+
 
         <div class="content-wrapper">
           <div class="content">
@@ -151,6 +151,6 @@
           </div>
         </div>
       </div>
-    </div>
+
 @endsection
 

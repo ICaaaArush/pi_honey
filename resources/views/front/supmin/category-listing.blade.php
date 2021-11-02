@@ -15,7 +15,7 @@
       <th scope="col">ID</th>
       <th scope="col">Category Name</th>
       <th scope="col">Delete</th>
-      <th scope="col">Edit</th>
+
     </tr>
   </thead>
   @foreach($listings as $listing)
@@ -26,10 +26,7 @@
       <td>
         <a href="{{route('delete-cat',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
       </td>
-      <td><button class="btn btn-success" >
-        <i class="fa fa-pen"></i> Edit
-        </button>
-      </td>
+
     </tr>
   </tbody>
   @endforeach

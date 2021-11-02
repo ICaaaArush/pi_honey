@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    public function categoryShakaLaka()
+    public function categories()
     {
         return $this->belongsToMany(Category::class);
     }

@@ -22,15 +22,11 @@ class CreateProductsTable extends Migration
             $table->float('profit')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();;
             $table->foreign('category_id')->references('id')->on('categories')->nullable();
-            $table->unsignedBigInteger('sub_category_id')->nullable();;
+            $table->unsignedBigInteger('sub_category_id')->nullable();
             $table->foreign('sub_category_id')->references('id')->on('sub_categories')->nullable();
             $table->string('bar_code_sh')->nullable(); // SH = SUPPLYHANDLER
             $table->string('bar_code_deh')->nullable(); // DEH = DATAENTRYHANDLER
             $table->string('bar_code_ma')->nullable(); // MA = MANAGER
-            $table->boolean('status')->default(0);
-            $table->string('delivery_method')->nullable();
-            $table->unsignedBigInteger('supplier_id')->nullable();;
-            $table->foreign('supplier_id')->references('id')->on('supplier_details');
             $table->timestamps();
         });
     }
