@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\DeliveryCompany;
 use App\Models\Category;
+use App\Models\MainProduct;
+use App\Models\RejectedProduct;
 use App\Models\SupplierDetail;
 
 
@@ -31,22 +33,49 @@ class DataEntryHandler extends Controller
 
     public function InsertProduct(Request $request)
     {
+        $quantity = 0;
+        foreach($request->product as $prod)
+        {
+            $quantity += $prod['quantity'];
+        }
+
+        $quantity += $request->rejectquantity;
+
+        if($quantity == $request->quantity)
+        {
+            foreach($request->product as $prod){
+                $add = new MainProduct;
+                $add->product_id = $request->id;
+                $add->name = $prod['name'];
+                $add->quantity = $prod['quantity'];
+                $add->de_barcode = $prod['barcode'];
+                $add->save();
+            }
+
+            if($request->reject_reason != null & $request->rejectquantity != null)
+            {
+                $reason = new RejectedProduct;
+                $reason->product_id = $request->id;
+                $reason->reason = $reason->reject_reason;
+                $reason->quantity = $request->rejectquantity;
+                $reason->save();
+            }
+
+            $status = Product::where('id',$request->id)->update([
+                'status' => 1
+            ]);
+
+            return redirect(route('de-product-list'));
+        }else{
+            return back()->with('error','Product Quantity Doesn"t Match!');
+        };
+
         //  INSERT DELIVERY COMPANY
-        $product = new Product;
+        // $product = new MainProduct;
 
-        $product->name = $request->input('name');
-        $product->quantity = $request->input('quantity');
-        $product->supplier_name = $request->input('supplier_name');
-        $product->supplier_tell = $request->input('supplier_tell');
-        $product->costing = $request->input('costing');
-        $product->price = $request->input('price');
-        $product->profit = $request->input('profit');
-        $product->category_id = $request->input('category_id');
-        $product->sub_category_id = $request->input('sub_category_id');
-        $product->qr_code = $request->input('qr_code');
-
-
-        $product->save();
+        // $product->product_id = $request->id;
+        
+        
 
         return back()->with('message', 'Product Uploaded Successfully!');
     }

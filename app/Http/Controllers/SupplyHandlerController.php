@@ -17,18 +17,6 @@ class SupplyHandlerController extends Controller
     {
         $listings = Product::get();
 
-        // dd($listings);
-
-        //  Doing this to make sure the relationship works
-        foreach($listings as $product){
-
-            echo $product->id."<br>";
-
-            foreach ($product->category as $value) {
-                echo "hello".$value->category_name;
-            }
-        }
-        exit();
         // $listings = Product::find(1)->categoryShakaLaka()->first();
 
         //  VIEW PRODUCTS

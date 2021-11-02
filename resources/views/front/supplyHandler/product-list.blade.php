@@ -35,7 +35,7 @@
       <td>{{$listing->costing}}</td>
       <td>{{$listing->price}}</td>
       <td>{{$listing->profit}}</td>
-      <td>{{$listing->category_id}}</td>
+      <td>{{$listing->category->category_name}}</td>
       <td>{{$listing->sub_category_id}}</td>
       <td>{{$listing->bar_code_sh}}</td>
       <td>
