@@ -79,6 +79,11 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/ma-product-list', [Manage
 Route::middleware(['auth:sanctum', 'verified'])->post('/ma-insert-product', [ManagerController::class, 'InsertProduct'])->name('ma-insert-product');
 
 Route::middleware(['auth:sanctum', 'verified'])->post('/ma-save-price', [ManagerController::class, 'InsertPrice'])->name('ma-save-price');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/ma-sorted-product-list', [ManagerController::class, 'SortedProductList'])->name('ma-sorted-product-list');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/ma-change-status', [ManagerController::class, 'ChangeSortStatus'])->name('ma-change-status');
+
 // });
 //  MANAGER ROUTES END
 

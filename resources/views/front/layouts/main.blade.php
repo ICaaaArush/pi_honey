@@ -203,6 +203,11 @@
                         <span class="nav-text">Product List</span>
                       </a>
                     </li>
+                    <li>
+                      <a class="sidenav-item-link" href="{{route('ma-sorted-product-list')}}">
+                        <span class="nav-text">Sorted Product List</span>
+                      </a>
+                    </li>
                   </div>
                 </ul>
               </li>
