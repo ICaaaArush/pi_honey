@@ -17,7 +17,7 @@
       <th scope="col">Price</th>
       <th scope="col">Profit</th>
       <th scope="col">Category Id</th>
-      <th scope="col">Sub Category Id</th>
+      <th scope="col">Status</th>
       <th scope="col">Bar Code</th>
       <th scope="col">Delete</th>
     </tr>
@@ -41,7 +41,9 @@
       </td>
       <td>{{$listing->profit}}</td>
       <td>{{$listing->category->category_name}}</td>
-      <td>{{$listing->subcategory->id}}</td>
+      <td>
+        <input id="sim{{$listing->id}}" data-id="{{$listing->id}}" class="toggle-class sim" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $listing->status ? 'checked' : '' }}>
+        </td>
       <td>{{$listing->bar_code_ma}}</td>
       <td>
           <a href="{{route('delete',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
@@ -203,7 +205,23 @@
      // body...
   }
 
-
+$(function() {
+    $('.sim').change(function() {
+        var status = $(this).prop('checked') == true ? 1 : 0; 
+        var product_id = $(this).data('id'); 
+        console.log('hello');
+         
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: '/ma-change-status',
+            data: {'status': status, 'product_id': product_id},
+            success: function(data){
+              console.log(data.success)
+            }
+        });
+    })
+  })
 
 
 

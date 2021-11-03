@@ -84,6 +84,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/ma-sorted-product-list', 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/ma-change-status', [ManagerController::class, 'ChangeSortStatus'])->name('ma-change-status');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/ma-edit/{id}', [ManagerController::class, 'MaEdit'])->name('ma-edit');
+
 // });
 //  MANAGER ROUTES END
 
@@ -129,6 +131,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/sort/{id}', [DataEntryHan
 Route::get('/logout', [CommonController::class, 'Logout'])->name('logout');
 
 Route::get('/delete/{id}', [CommonController::class, 'DeleteProduct'])->name('delete');
+
+Route::get('/delete/main/{id}', [CommonController::class, 'DeleteMainProduct'])->name('delete-main');
 
 Route::get('/delete-del/{id}', [CommonController::class, 'DeleteDeliveryCompany'])->name('delete-del');
 

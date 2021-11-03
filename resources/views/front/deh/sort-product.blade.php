@@ -40,6 +40,7 @@
                 <input type="hidden" value="1" id="index">
                 <input type="hidden" value="{{ $product->id }}" name="id">
                 <input type="hidden" value="{{ $product->quantity }}" name="quantity">
+                <input type="hidden" value="{{ $product->costing }}" name="cost">
                 <div class="form-group col-md-3">
                     <label for="inputAddress">Product Name</label>
                     <input type="text" class="form-control" id="inputPassword4" name="product[0][name]" value="">

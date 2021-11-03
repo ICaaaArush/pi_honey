@@ -34,6 +34,7 @@ class DataEntryHandler extends Controller
     public function InsertProduct(Request $request)
     {
         $quantity = 0;
+        $cost = $request->cost / $request->quantity; 
         foreach($request->product as $prod)
         {
             $quantity += $prod['quantity'];
@@ -48,6 +49,7 @@ class DataEntryHandler extends Controller
                 $add->product_id = $request->id;
                 $add->name = $prod['name'];
                 $add->quantity = $prod['quantity'];
+                $add->cost = $cost;
                 $add->de_barcode = $prod['barcode'];
                 $add->save();
             }

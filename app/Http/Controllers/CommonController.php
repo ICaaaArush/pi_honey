@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\DeliveryCompany;
 use App\Models\Category;
+use App\Models\MainProduct;
 use App\Models\SupplierDetail;
 
 class CommonController extends Controller
@@ -20,6 +21,12 @@ class CommonController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/login');
+    }
+    public function DeleteMainProduct($id)
+    {
+        MainProduct::where('id', $id)->delete();
+
+        return redirect()->back();
     }
     public function DeleteProduct($id)
     {

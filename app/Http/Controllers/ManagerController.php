@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\MainProduct;
 use App\Models\DeliveryCompany;
 use App\Models\Category;
+use App\Models\SupplierDetail;
 
 class ManagerController extends Controller
 {
@@ -31,21 +32,11 @@ class ManagerController extends Controller
 
     //  INSERT DELIVERY COMPANY
     public function InsertProduct(Request $request)
-    {
-        
-        $product = new Product;
+    {   
+        $product = MainProduct::find($request->productId);
 
-        $product->name = $request->input('name');
-        $product->quantity = $request->input('quantity');
-        $product->supplier_name = $request->input('supplier_name');
-        $product->supplier_tell = $request->input('supplier_tell');
-        // $product->costing = $request->input('costing');
         $product->price = $request->input('price');
-        $product->profit = $request->input('profit');
-        $product->category_id = $request->input('category_id');
-        // $product->sub_category_id = $request->input('sub_category_id');
-        $product->qr_code = $request->input('qr_code');
-
+        $product->m_barcode = $request->input('m_barcode');
 
         $product->save();
 
@@ -67,8 +58,7 @@ class ManagerController extends Controller
     // VIEW SORTED PRODUCTS
     public function SortedProductList()
     {
-        $listings = MainProduct::paginate(25);
-        dd($listings);
+        $listings = MainProduct::get();
 
         // VIEW SORTED PRODUCTS
         return view('front.manager.sorted-main-product-list', compact('listings'));
@@ -82,5 +72,16 @@ class ManagerController extends Controller
         $product->save();
   
         return response()->json(['success'=>'Status change successfully.']);
+    }
+
+    //  VIEW ADD PRODUCT PAGE WITH CATEGORIES
+    public function MaEdit($id)
+    {
+        $categories = Category::get();
+        $suppliers = SupplierDetail::get();
+        $listings = MainProduct::find($id);
+
+        
+        return view('front.manager.edit-product', compact('listings','categories','suppliers'));
     }
 }

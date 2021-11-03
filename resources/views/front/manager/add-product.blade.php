@@ -4,7 +4,7 @@
 @section('content')
 
 <div class="container-fluid">
-  <form action="{{route('de-insert-product')}}" method="post">
+  <form action="{{route('ma-insert-product')}}" method="post">
     @csrf
     <br>
     <br>
@@ -62,7 +62,7 @@
     </div>
     <div class="form-group">
       <label for="inputAddress2">Barcode</label>
-      <input type="text" class="form-control" id="inputAddress2" name="qr_code" placeholder="Enter Barcode">
+      <input type="text" class="form-control" id="inputAddress2" name="m_barcode" placeholder="Enter Barcode">
     </div>
     <button type="submit" class="btn btn-primary">Add</button>
   </form>

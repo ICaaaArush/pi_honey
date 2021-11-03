@@ -9,18 +9,9 @@ class MainProduct extends Model
 {
     use HasFactory;
 
-    public function category()
+    public function product()
     {
-        return $this->belongsTo(Category::class);   
+        return $this->belongsTo(Product::class); 
     }
 
-    public function subcategory()
-    {
-        return $this->hasMany(SubCategory::class);
-    }
-
-    public function supplier()
-    {
-        return $this->belongsTo(SupplierDetail::class);
-    }
 }

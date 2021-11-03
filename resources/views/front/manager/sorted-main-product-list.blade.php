@@ -6,46 +6,54 @@
 
 <div class="container-fluid">
   <table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Name</th>
-      <th scope="col">Quantity</th>
-      <th scope="col">Costing</th>
-      <th scope="col">Price</th>
-      <th scope="col">Profit</th>
-      <th scope="col">Category</th>
-      <th scope="col">Status</th>
-      <th scope="col">Bar Code</th>
-      <th scope="col">Delete</th>
-    </tr>
-  </thead>
-  @foreach($listings as $listing)
-  <tbody>
-    <tr>
-      <th scope="row">{{$listing->id}}</th>
-      <td>{{$listing->name}}</td>
-      <td>{{$listing->quantity}}</td>
-      <td>{{$listing->costing}}</td>
-      <td>
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Costing</th>
+        <th scope="col">Price</th>
+        <th scope="col">Profit</th>
+        <th scope="col">Category</th>
+        <th scope="col">Bar Code</th>
+        <th scope="col">Delete</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Barcode</th>
+      </tr>
+    </thead>
+    @foreach($listings as $listing)
+    <tbody>
+      <tr>
+        <th scope="row">{{$listing->id}}</th>
+        <td>{{$listing->name}}</td>
+        <td>{{$listing->quantity}}</td>
+        <td>{{$listing->cost}}</td>
+        <td>
         <form class="container-fluid" action="{{route('ma-save-price')}}" method="post">
-          @csrf
-          <!-- <input type="hidden" name="productId" value="{{$listing->id}}">
-          <input type="text" name="price" id="price" value="{{$listing->price}}"> -->
-          <button type="btn btn-danger" id="butsave">Set Price</button>
+        @csrf
+        <!-- <input type="hidden" name="productId" value="{{$listing->id}}">
+        <input type="text" name="price" id="price" value="{{$listing->price}}"> -->
+        <button type="btn btn-danger" id="butsave">Set Price</button>
         </form>
-      </td>
-      <td>{{$listing->profit}}</td>
-      <td>{{$listing->category->category_name}}</td>
-      <td>
-        <input id="sim{{$listing->id}}" data-id="{{$listing->id}}" class="toggle-class sim" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $listing->status ? 'checked' : '' }}>
-      </td>
-      <td>{{$listing->bar_code_ma}}</td>
-      <td>
-          <a href="{{route('delete',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
-      </td>
-    </tr>
-  </tbody>
+        </td>
+        <td>{{$listing->profit}}</td>
+        <td>{{$listing->product->category->category_name}}</td>
+        <td>{{$listing->bar_code_ma}}</td>
+        <td>
+        <a href="{{route('delete-main',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
+        </td>
+        <td>
+        <a href="{{route('ma-edit',[$listing->id])}}" class="btn btn-danger fa fa-trash">Edit</a>
+        </td>
+        <td>
+        <?php
+          echo DNS1D::getBarcodeSVG($listing->bar_code_ma, 'C39');
+          // echo DNS1D::getBarcodePNGPath($listing->bar_code_ma, 'PHARMA2T');
+          // echo DNS2D::getBarcodeHTML($listing->bar_code_ma, 'QRCODE');
+        ?>
+        </td>
+      </tr>
+    </tbody>
   @endforeach
   </table>
 </div>
@@ -202,23 +210,7 @@
   }
 
 
-$(function() {
-    $('.sim').change(function() {
-        var status = $(this).prop('checked') == true ? 1 : 0; 
-        var product_id = $(this).data('id'); 
-        console.log('hello');
-         
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: '/ma-change-status',
-            data: {'status': status, 'product_id': product_id},
-            success: function(data){
-              console.log(data.success)
-            }
-        });
-    })
-  })
+
 
 
 
