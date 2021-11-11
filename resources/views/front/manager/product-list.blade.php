@@ -12,13 +12,9 @@
       <th scope="col">Name</th>
       <th scope="col">Quantity</th>
       <th scope="col">Supplier Name</th>
-      <th scope="col">Supplier Tell</th>
       <th scope="col">Costing</th>
-      <th scope="col">Price</th>
-      <th scope="col">Profit</th>
-      <th scope="col">Category Id</th>
+      <th scope="col">Category</th>
       <th scope="col">Status</th>
-      <th scope="col">Bar Code</th>
       <th scope="col">Delete</th>
     </tr>
   </thead>
@@ -28,23 +24,12 @@
       <th scope="row">{{$listing->id}}</th>
       <td>{{$listing->name}}</td>
       <td>{{$listing->quantity}}</td>
-      <td>{{$listing->supplier_name}}</td>
-      <td>{{$listing->supplier_tell}}</td>
+      <td>{{$listing->supplier->supplier_name}}</td>
       <td>{{$listing->costing}}</td>
-      <td>
-        <form class="container-fluid" action="{{route('ma-save-price')}}" method="post">
-          @csrf
-          <!-- <input type="hidden" name="productId" value="{{$listing->id}}">
-          <input type="text" name="price" id="price" value="{{$listing->price}}"> -->
-          <button type="btn btn-danger" id="butsave">Set Price</button>
-        </form>
-      </td>
-      <td>{{$listing->profit}}</td>
       <td>{{$listing->category->category_name}}</td>
       <td>
         <input id="sim{{$listing->id}}" data-id="{{$listing->id}}" class="toggle-class sim" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $listing->status ? 'checked' : '' }}>
         </td>
-      <td>{{$listing->bar_code_ma}}</td>
       <td>
           <a href="{{route('delete',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
       </td>

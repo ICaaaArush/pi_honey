@@ -24,6 +24,14 @@
         <label for="inputAddress2">Supplier Name</label>
         <input value="{{$listings->product->supplier->supplier_name}}" class="form-control" id="inputAddress2" name="" placeholder="" readonly>
       </div>
+      <div class="form-group col-md-6">
+        <label for="inputAddress2">Quality</label>
+        <select class="form-control" name="quality">
+          @foreach ($qualities as $item)
+            <option value="{{ $item->id }}">{{ $item->quality }}</option>
+          @endforeach
+        </select>
+      </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
@@ -42,10 +50,7 @@
       </div>
 <!--  -->
     </div>
-    <div class="form-group">
-      <label for="inputAddress2">Barcode</label>
-      <input type="text" class="form-control" id="inputAddress2" name="m_barcode" placeholder="Enter Barcode">
-    </div>
+
     <button type="submit" class="btn btn-primary">Add</button>
   </form>
 </div>

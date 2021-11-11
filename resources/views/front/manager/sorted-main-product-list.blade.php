@@ -13,12 +13,10 @@
         <th scope="col">Quantity</th>
         <th scope="col">Costing</th>
         <th scope="col">Price</th>
-        <th scope="col">Profit</th>
         <th scope="col">Category</th>
         <th scope="col">Bar Code</th>
         <th scope="col">Delete</th>
         <th scope="col">Edit</th>
-        <th scope="col">Barcode</th>
       </tr>
     </thead>
     @foreach($listings as $listing)
@@ -28,29 +26,14 @@
         <td>{{$listing->name}}</td>
         <td>{{$listing->quantity}}</td>
         <td>{{$listing->cost}}</td>
-        <td>
-        <form class="container-fluid" action="{{route('ma-save-price')}}" method="post">
-        @csrf
-        <!-- <input type="hidden" name="productId" value="{{$listing->id}}">
-        <input type="text" name="price" id="price" value="{{$listing->price}}"> -->
-        <button type="btn btn-danger" id="butsave">Set Price</button>
-        </form>
-        </td>
-        <td>{{$listing->profit}}</td>
+        <td>{{$listing->price}}</td>
         <td>{{$listing->product->category->category_name}}</td>
-        <td>{{$listing->bar_code_ma}}</td>
+        <td> <a onclick="barcode( {{ $listing->m_barcode }} )" href="#">{{$listing->m_barcode}}</a> </td>
         <td>
         <a href="{{route('delete-main',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
         </td>
         <td>
         <a href="{{route('ma-edit',[$listing->id])}}" class="btn btn-danger fa fa-trash">Edit</a>
-        </td>
-        <td>
-        <?php
-          echo DNS1D::getBarcodeSVG($listing->bar_code_ma, 'C39');
-          // echo DNS1D::getBarcodePNGPath($listing->bar_code_ma, 'PHARMA2T');
-          // echo DNS2D::getBarcodeHTML($listing->bar_code_ma, 'QRCODE');
-        ?>
         </td>
       </tr>
     </tbody>
@@ -208,15 +191,56 @@
   function deleteFunction(id) {
      // body...
   }
+  function barcode(id)
+  { 
+    JsBarcode("#barcode", id);
 
+    $('.modal').modal('show');
+  }
+</script>
 
-
-
-
-
-
+<script>
+  function printDiv() {
+      var divContents = document.getElementById("b").innerHTML;
+      var a = window.open('', '', 'height=500, width=500');
+      a.document.write('<html>');
+      a.document.write('<body >');
+      a.document.write(divContents);
+      a.document.write('</body></html>');
+      a.document.close();
+      a.print();
+  }
 </script>
 
 
 @endsection
 
+@section('modal')
+    <div class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Barcode</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div id="b" class="modal-body">
+            <div class="row justify-content-center">
+              <div class="col-md-8">
+                <svg id="barcode"></svg>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <div class="col-12" style="text-align: center">
+                <a href="javascript:void" onclick="printDiv()" rel="noopener" class="btn btn-success">
+                  <i class="fas fa-print"></i>
+                  Print
+                </a>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+@endsection

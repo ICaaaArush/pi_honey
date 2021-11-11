@@ -33,40 +33,49 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::middleware(['auth', 'supmin'])->prefix('/supmin')->group(function () {
+
+    
+    Route::middleware(['auth:sanctum', 'verified'])->get('/delivery-companies', [SuperAdminController::class, 'DeliveryCompanies'])->name('delivery-companies');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/del-com-list', [DeliveryCompanyController::class, 'DeliveryCompanies'])->name('del-com-list');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/add-del-com', [DeliveryCompanyController::class, 'AddDeliveryCompanies'])->name('add-del-com');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/add-del-com', [DeliveryCompanyController::class, 'InsertDelComList'])->name('add-del-com');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/delete-del/{id}', [CommonController::class, 'DeleteDeliveryCompany'])->name('delete-del');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/category-list', [DeliveryCompanyController::class, 'CategoryList'])->name('category-list');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/add-category', [DeliveryCompanyController::class, 'AddCategory'])->name('add-category');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/add-category', [DeliveryCompanyController::class, 'InsertCategory'])->name('add-category');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/delete-cat/{id}', [CommonController::class, 'DeleteCategory'])->name('delete-cat');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/color-list', [SuperAdminController::class, 'color_list'])->name('color-list');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/add-color', [SuperAdminController::class, 'add_color'])->name('add-color');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/add-color', [SuperAdminController::class, 'store_color'])->name('add-color');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/delete-color/{id}', [SuperAdminController::class, 'delete_color'])->name('delete-color');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/brand-list', [SuperAdminController::class, 'brand_list'])->name('brand-list');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/add-brand', [SuperAdminController::class, 'add_brand'])->name('add-brand');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/add-brand', [SuperAdminController::class, 'store_brand'])->name('add-brand');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/delete-brand/{id}', [SuperAdminController::class, 'delete_brand'])->name('delete-brand');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/size-list', [SuperAdminController::class, 'size_list'])->name('size-list');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/add-size', [SuperAdminController::class, 'add_size'])->name('add-size');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/add-size', [SuperAdminController::class, 'store_size'])->name('add-size');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/delete-size/{id}', [SuperAdminController::class, 'delete_size'])->name('delete-size');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/quality-list', [SuperAdminController::class, 'quality_list'])->name('quality-list');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/add-quality', [SuperAdminController::class, 'add_quality'])->name('add-quality');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/add-quality', [SuperAdminController::class, 'store_quality'])->name('add-quality');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/delete-quality/{id}', [SuperAdminController::class, 'delete_quality'])->name('delete-quality');
+    
+});
+
+Route::middleware(['auth', 'dataentry'])->prefix('/data-entry')->group(function () {
+    Route::middleware(['auth:sanctum', 'verified'])->post('/de-insert-product', [DataEntryHandler::class, 'InsertProduct'])->name('de-insert-product');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/de-product-list', [DataEntryHandler::class, 'ProductList'])->name('de-product-list');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/sort/{id}', [DataEntryHandler::class, 'ProductSort'])->name('sort');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/add-order', [DataEntryHandler::class, 'add_order'])->name('de-add-order');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/place-order', [DataEntryHandler::class, 'store_order'])->name('de-place-order');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/de-add-product/{id}', [DataEntryHandler::class, 'add_product']);
+    Route::middleware(['auth:sanctum', 'verified'])->get('/de-add/{id}', [DataEntryHandler::class, 'add']);
+});
+
 // USER DASHBOARD
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [DashboardController::class, 'Dashboard'])->name('dashboard');
-
-
-//  SUPER ADMIN ROUTES START
-//  CHECK IF ADMIN
-// Route::middleware([SuperAdmin::class])->group(function () {
-
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/delivery-companies', [SuperAdminController::class, 'DeliveryCompanies'])->name('delivery-companies');
-
-//  VIEW DELIVERY COMAPNIES
-Route::middleware(['auth:sanctum', 'verified'])->get('/del-com-list', [DeliveryCompanyController::class, 'DeliveryCompanies'])->name('del-com-list');
-
-//  VIEW DELIVERY COMAPNIES
-Route::middleware(['auth:sanctum', 'verified'])->get('/add-del-com', [DeliveryCompanyController::class, 'AddDeliveryCompanies'])->name('add-del-com');
-
-//  VIEW DELIVERY COMAPNIES
-Route::middleware(['auth:sanctum', 'verified'])->post('/add-del-com', [DeliveryCompanyController::class, 'InsertDelComList'])->name('add-del-com');
-
-//  VIEW DELIVERY COMAPNIES
-Route::middleware(['auth:sanctum', 'verified'])->get('/category-list', [DeliveryCompanyController::class, 'CategoryList'])->name('category-list');
-
-//  VIEW CATEGORY ADD PAGE
-Route::middleware(['auth:sanctum', 'verified'])->get('/add-category', [DeliveryCompanyController::class, 'AddCategory'])->name('add-category');
-
-//  INSERT DELIVERY COMPANY
-Route::middleware(['auth:sanctum', 'verified'])->post('/add-category', [DeliveryCompanyController::class, 'InsertCategory'])->name('add-category');
-
-
-
-// });
-//  SUPER ADMIN ROUTES END
-
 
 //  MANAGER ROUTES START
 //  CHECK IF MANAGER
@@ -106,22 +115,11 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/sh-insert-supplier', [Su
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/sh-supplier-list', [SupplyHandlerController::class, 'SupplierList'])->name('sh-supplier-list');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/delete-supplier/{id}', [CommonController::class, 'DeleteSupplier'])->name('delete-supplier');
+
 // });
 
 //  SUPPLY HANDLER ROUTES END
-
-//  DATA ENTRY ROUTES START
-//  CHECK IF DATA ENTRY
-Route::middleware([UserIsDataEntryHandler::class])->group(function () {
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/de-add-product', [DataEntryHandler::class, 'AddProduct'])->name('de-add-product');
-
-Route::middleware(['auth:sanctum', 'verified'])->post('/de-insert-product', [DataEntryHandler::class, 'InsertProduct'])->name('de-insert-product');
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/de-product-list', [DataEntryHandler::class, 'ProductList'])->name('de-product-list');
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/sort/{id}', [DataEntryHandler::class, 'ProductSort'])->name('sort');
-});
 
 //  SUPPLY HANDLER ROUTES END
 
@@ -134,8 +132,4 @@ Route::get('/delete/{id}', [CommonController::class, 'DeleteProduct'])->name('de
 
 Route::get('/delete/main/{id}', [CommonController::class, 'DeleteMainProduct'])->name('delete-main');
 
-Route::get('/delete-del/{id}', [CommonController::class, 'DeleteDeliveryCompany'])->name('delete-del');
-
-Route::get('/delete-cat/{id}', [CommonController::class, 'DeleteCategory'])->name('delete-cat');
-
-Route::get('/delete-supplier/{id}', [CommonController::class, 'DeleteSupplier'])->name('delete-supplier');
+Route::get('/orders', [CommonController::class, 'orders'])->name('orders');

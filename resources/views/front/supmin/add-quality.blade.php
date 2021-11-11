@@ -7,27 +7,23 @@
 @section('content')
 
 <div class="container-fluid">
-  <form action="{{route('add-del-com')}}" method="post">
+  <form action="{{route('add-quality')}}" method="post">
     @csrf
     <br>
     <br>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="inputEmail4">Company Name</label>
-        <input type="text" class="form-control" id="inputEmail4" name="company_name" placeholder="Enter Name">
+        <label for="color">Quality</label>
+        <input type="text" class="form-control" id="color" name="quality" placeholder="Enter Quality">
       </div>
-      <div class="form-group col-md-6">
-        <label for="inputPassword4">Phone Number</label>
-        <input type="tel" class="form-control" id="inputPassword4" name="phone_number" placeholder="Enter Number">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="inputAddress">Address</label>
-      <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Enter Address">
     </div>
     <button type="submit" class="btn btn-primary">Add</button>
   </form>
 </div>
+
+@endsection
+
+@section('scripts')
 
 @endsection
 

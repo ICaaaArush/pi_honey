@@ -14,4 +14,24 @@ class MainProduct extends Model
         return $this->belongsTo(Product::class); 
     }
 
+    public function color()
+    {
+        return $this->belongsTo(Color::class); 
+    }
+
+    public function size()
+    {
+        return $this->belongsTo(Size::class); 
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class); 
+    }
+
+    public function quality()
+    {
+        return $this->belongsTo(Quality::class); 
+    }
+
 }

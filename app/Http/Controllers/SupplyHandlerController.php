@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\DeliveryCompany;
 use App\Models\Category;
 use App\Models\SupplierDetail;
+use Carbon\Carbon;;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -34,10 +35,15 @@ class SupplyHandlerController extends Controller
     }
 
     public function InsertProduct(Request $request)
-    {
+    {   $ran = rand(1000, 9999);
+
+        $sup = SupplierDetail::where('id',$request->supplier)->first();
+
+        $date = Carbon::now()->format('dm');
+
         //  INSERT DELIVERY COMPANY
         $product = new Product;
-
+        $product->id = $ran;
         $product->name = $request->input('name');
         $product->quantity = $request->input('quantity');
         $product->supplier_id = $request->input('supplier');
@@ -46,12 +52,17 @@ class SupplyHandlerController extends Controller
         $product->profit = $request->input('profit');
         $product->category_id = $request->input('category_id');
         // $product->sub_category_id = $request->input('sub_category_id');
-        $product->bar_code_sh = $request->input('qr_code');
 
 
         $product->save();
 
-        return back()->with('message', 'Product Uploaded Successfully!');
+        $barcode = $sup->id.$product->id.$date;
+
+        $bar_add = Product::where('id',$product->id)->update([
+            'bar_code_sh' => $barcode
+        ]);
+
+        return back()->with('success', 'Product Uploaded Successfully!');
     }
 
     public function AddSupplier()
@@ -61,10 +72,12 @@ class SupplyHandlerController extends Controller
     }
 
     public function InsertSupplier(Request $request)
-    {
+    {   $ran = rand(100, 999);
         //  INSERT DELIVERY COMPANY
         $suppiler = new SupplierDetail;
-
+        $suppiler->id = $ran;
+        $suppiler->email = $request->input('email');
+        $suppiler->alt_supplier_tell = $request->input('alt_supplier_tell');
         $suppiler->supplier_name = $request->input('supplier_name');
         $suppiler->supplier_tell = $request->input('supplier_tell');
         $suppiler->address = $request->input('address');
@@ -72,7 +85,7 @@ class SupplyHandlerController extends Controller
 
         $suppiler->save();
 
-        return back()->with('message', 'Product Uploaded Successfully!');
+        return redirect(route('sh-supplier-list'))->with('success', 'Supplier Uploaded Successfully!');
     }
 
     public function SupplierList()

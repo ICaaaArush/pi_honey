@@ -9,7 +9,7 @@
       content="Sleek Dashboard - Free Bootstrap 4 Admin Dashboard Template and UI Kit. It is very powerful bootstrap admin dashboard, which allows you to build products like admin panels, content management systems and CRMs etc.">
 
 
-    <title>Sleek - Admin Dashboard Template</title>
+    <title>Pos System</title>
 
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500|Poppins:400,500,600,700|Roboto:400,500"
@@ -24,15 +24,6 @@
     <!-- FAVICON -->
     <link href="{{asset('assets/img/favicon.png')}}" rel="shortcut icon" />
 
-
-    <!--
-      HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
-    -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
   </head>
 
@@ -63,155 +54,207 @@
           </div>
           <!-- begin sidebar scrollbar -->
           <div class="sidebar-scrollbar">
-
-            <!-- sidebar menu -->
-            <ul class="nav sidebar-inner" id="sidebar-menu">
-              <li class="has-sub active expand">
-                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#documentation"
-                  aria-expanded="false" aria-controls="documentation">
-                  <i class="mdi mdi-book-open-page-variant"></i>
-                  <span class="nav-text">Super Admin</span> <b class="caret"></b>
-                </a>
-                <ul class="collapse show" id="documentation" data-parent="#sidebar-menu">
-                  <div class="sub-menu">
-                    <li class="section-title">
-                      Delivery Company
-                    </li>
-                    <li>
-                      <a class="sidenav-item-link" href="{{route('del-com-list')}}">
-                        <span class="nav-text">Delivery Company Listing</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="sidenav-item-link" href="{{route('add-del-com')}}">
-                        <span class="nav-text">Add Delivery Company</span>
-                      </a>
-                    </li>
-
-
-                    <li class="section-title">
-                      Category
-                    </li>
-                    <li>
-                      <a class="sidenav-item-link" href="{{route('add-category')}}">
-                        <span class="nav-text">Add Category</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="sidenav-item-link" href="{{route('category-list')}}">
-                        <span class="nav-text">Category List</span>
-                      </a>
-                    </li>
-                  </div>
+            @if (Auth::user()->role == 'supmin')
+                <!-- sidebar menu -->
+                <ul class="nav sidebar-inner" id="sidebar-menu">
+                  <li class="has-sub">
+                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#documentation"
+                      aria-expanded="false" aria-controls="documentation">
+                      <i class="mdi mdi-book-open-page-variant"></i>
+                      <span class="nav-text">Super Admin</span> <b class="caret"></b>
+                    </a>
+                    <ul class="collapse" id="documentation" data-parent="#sidebar-menu">
+                      <div class="sub-menu">
+                        <li class="section-title">
+                          Delivery Company
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('del-com-list')}}">
+                            <span class="nav-text">Delivery Company Listing</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('add-del-com')}}">
+                            <span class="nav-text">Add Delivery Company</span>
+                          </a>
+                        </li>
+                        <li class="section-title">
+                          Category
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('add-category')}}">
+                            <span class="nav-text">Add Category</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('category-list')}}">
+                            <span class="nav-text">Category List</span>
+                          </a>
+                        </li>
+                        <li class="section-title">
+                          Colors
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('color-list')}}">
+                            <span class="nav-text">Color List</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('add-color')}}">
+                            <span class="nav-text">Add Color</span>
+                          </a>
+                        </li>
+                        <li class="section-title">
+                          Brands
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('brand-list')}}">
+                            <span class="nav-text">Brand Listing</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('add-brand')}}">
+                            <span class="nav-text">Add Brand</span>
+                          </a>
+                        </li>
+                        <li class="section-title">
+                          Sizes
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('size-list')}}">
+                            <span class="nav-text">Size Listing</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('add-size')}}">
+                            <span class="nav-text">Add Size</span>
+                          </a>
+                        </li>
+                        <li class="section-title">
+                          Qualities
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('quality-list')}}">
+                            <span class="nav-text">Quality Listing</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('add-quality')}}">
+                            <span class="nav-text">Add Quality</span>
+                          </a>
+                        </li>
+                      </div>
+                    </ul>
+                  </li>
                 </ul>
-              </li>
-            </ul>
+            @endif
+            @if (Auth::user()->role == 'supmin' || Auth::user()->role =='supplier')
+                <!-- sidebar menu -->
+                <ul class="nav sidebar-inner" id="sidebar-menu">
+                  <li class="has-sub">
+                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#documentation2"
+                      aria-expanded="false" aria-controls="documentation2">
+                      <i class="mdi mdi-book-open-page-variant"></i>
+                      <span class="nav-text">Supply Handler</span> <b class="caret"></b>
+                    </a>
+                    <ul class="collapse" id="documentation2" data-parent="#sidebar-menu">
+                      <div class="sub-menu">
+                        <li class="section-title">
+                          Product
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('sh-add-product')}}">
+                            <span class="nav-text">Add Product</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('sh-product-list')}}">
+                            <span class="nav-text">Product List</span>
+                          </a>
+                        </li>
 
-            <!-- sidebar menu -->
-            <ul class="nav sidebar-inner" id="sidebar-menu">
-              <li class="has-sub active expand">
-                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#documentation2"
-                  aria-expanded="false" aria-controls="documentation2">
-                  <i class="mdi mdi-book-open-page-variant"></i>
-                  <span class="nav-text">Supply Handler</span> <b class="caret"></b>
-                </a>
-                <ul class="collapse show" id="documentation2" data-parent="#sidebar-menu">
-                  <div class="sub-menu">
-                    <li class="section-title">
-                      Product
-                    </li>
-                    <li>
-                      <a class="sidenav-item-link" href="{{route('sh-add-product')}}">
-                        <span class="nav-text">Add Product</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="sidenav-item-link" href="{{route('sh-product-list')}}">
-                        <span class="nav-text">Product List</span>
-                      </a>
-                    </li>
 
-
-                    <li class="section-title">
-                      Supplier
-                    </li>
-                    <li>
-                      <a class="sidenav-item-link" href="{{route('sh-add-supplier')}}">
-                        <span class="nav-text">Add Supplier</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="sidenav-item-link" href="{{route('sh-supplier-list')}}">
-                        <span class="nav-text">Supplier List</span>
-                      </a>
-                    </li>
-                  </div>
+                        <li class="section-title">
+                          Supplier
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('sh-add-supplier')}}">
+                            <span class="nav-text">Add Supplier</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('sh-supplier-list')}}">
+                            <span class="nav-text">Supplier List</span>
+                          </a>
+                        </li>
+                      </div>
+                    </ul>
+                  </li>
                 </ul>
-              </li>
-            </ul>
-
-
-            <!-- sidebar menu -->
-            <ul class="nav sidebar-inner" id="sidebar-menu">
-              <li class="has-sub active expand">
-                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#documentation3"
-                  aria-expanded="false" aria-controls="documentation3">
-                  <i class="mdi mdi-book-open-page-variant"></i>
-                  <span class="nav-text">Data Entry Handler</span> <b class="caret"></b>
-                </a>
-                <ul class="collapse show" id="documentation3" data-parent="#sidebar-menu">
-                  <div class="sub-menu">
-                    <li class="section-title">
-                      Product
-                    </li>
-                    <li>
-                      <a class="sidenav-item-link" href="{{route('de-add-product')}}">
-                        <span class="nav-text">Add Product</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="sidenav-item-link" href="{{route('de-product-list')}}">
-                        <span class="nav-text">Product List</span>
-                      </a>
-                    </li>
-                  </div>
+            @endif
+            @if (Auth::user()->role == 'supmin' || Auth::user()->role =='de')
+                <!-- sidebar menu -->
+                <ul class="nav sidebar-inner" id="sidebar-menu">
+                  <li class="has-sub">
+                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#documentation3"
+                      aria-expanded="false" aria-controls="documentation3">
+                      <i class="mdi mdi-book-open-page-variant"></i>
+                      <span class="nav-text">Data Entry Handler</span> <b class="caret"></b>
+                    </a>
+                    <ul class="collapse" id="documentation3" data-parent="#sidebar-menu">
+                      <div class="sub-menu">
+                        <li class="section-title">
+                          Product
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('de-product-list')}}">
+                            <span class="nav-text">Product List</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('de-add-order')}}">
+                            <span class="nav-text">Add Order</span>
+                          </a>
+                        </li>
+                      </div>
+                    </ul>
+                  </li>
                 </ul>
-              </li>
-            </ul>
-
-
-            <!-- sidebar menu -->
-            <ul class="nav sidebar-inner" id="sidebar-menu">
-              <li class="has-sub active expand">
-                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#documentation4"
-                  aria-expanded="false" aria-controls="documentation4">
-                  <i class="mdi mdi-book-open-page-variant"></i>
-                  <span class="nav-text">Manager Products</span> <b class="caret"></b>
-                </a>
-                <ul class="collapse show" id="documentation4" data-parent="#sidebar-menu">
-                  <div class="sub-menu">
-                    <li class="section-title">
-                      Product
-                    </li>
-                    <li>
-                      <a class="sidenav-item-link" href="{{route('ma-add-product')}}">
-                        <span class="nav-text">Add Product</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="sidenav-item-link" href="{{route('ma-product-list')}}">
-                        <span class="nav-text">Product List</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="sidenav-item-link" href="{{route('ma-sorted-product-list')}}">
-                        <span class="nav-text">Sorted Product List</span>
-                      </a>
-                    </li>
-                  </div>
+            @endif
+            @if (Auth::user()->role == 'supmin' || Auth::user()->role =='manager')
+                <!-- sidebar menu -->
+                <ul class="nav sidebar-inner" id="sidebar-menu">
+                  <li class="has-sub">
+                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#documentation4"
+                      aria-expanded="false" aria-controls="documentation4">
+                      <i class="mdi mdi-book-open-page-variant"></i>
+                      <span class="nav-text">Manager Products</span> <b class="caret"></b>
+                    </a>
+                    <ul class="collapse" id="documentation4" data-parent="#sidebar-menu">
+                      <div class="sub-menu">
+                        <li class="section-title">
+                          Product
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('ma-add-product')}}">
+                            <span class="nav-text">Add Product</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('ma-product-list')}}">
+                            <span class="nav-text">Product List</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="{{route('ma-sorted-product-list')}}">
+                            <span class="nav-text">Sorted Product List</span>
+                          </a>
+                        </li>
+                      </div>
+                    </ul>
+                  </li>
                 </ul>
-              </li>
-            </ul>
+            @endif
 
 
 
@@ -222,6 +265,22 @@
         </div>
       </aside>
 <div class="page-wrapper pt-0">
+  @if(session()->has('error'))
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong> {{ session()->get('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+  @endif
+  @if(session()->has('success'))
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> {{ session()->get('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+  @endif  
       @yield('content')
 </div>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -245,8 +304,12 @@
     <script src="{{asset('assets/plugins/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('assets/plugins/slimscrollbar/jquery.slimscroll.min.js')}}"></script>
     <script src="{{asset('assets/js/sleek.bundle.js')}}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/jsbarcode@latest/dist/JsBarcode.all.min.js"></script>
 
     @yield('js')
+
+    @yield('modal')
 
   </body>
 

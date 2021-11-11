@@ -21,6 +21,14 @@
         <label for="inputAddress2">Supplier Tell</label>
         <input type="tel" class="form-control" id="inputAddress2" name="supplier_tell" placeholder="Enter Supplier Tell">
       </div>
+      <div class="form-group col-md-6">
+        <label for="inputAddress2">Alternative Supplier Tell</label>
+        <input type="tel" class="form-control" id="inputAddress2" name="alt_supplier_tell" placeholder="Enter Alternative Supplier Tell">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputAddress2">Email</label>
+        <input type="email" class="form-control" id="inputAddress2" name="email" placeholder="Enter Email">
+      </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">

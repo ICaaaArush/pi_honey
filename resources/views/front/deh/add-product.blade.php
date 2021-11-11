@@ -8,219 +8,180 @@
       <br>
       <br>
       <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="inputEmail4">Product Name</label>
-          <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="Enter Name">
+        <div class="form-group col-md-12">
+          <label for="inputEmail4">Product Code</label>
+          <input type="text" class="form-control" id="code" name="name" placeholder="Enter Code">
         </div>
-        <div class="form-group col-md-6">
-          <label for="inputPassword4">Quantity</label>
-          <input type="number" step="0.01" class="form-control" id="inputPassword4" name="quantity" placeholder="Enter Number">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="inputAddress">Supplier</label>
-          <select type="select" class="form-control" id="inputAddress2" name="category_id" placeholder="Enter Category">
-            @foreach($suppliers as $supplier)
-            <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
-            @endforeach
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <!-- <div class="form-group col-md-6">
-          <label for="inputAddress2">Costing</label>
-          <input type="number" step="0.01" class="form-control" id="inputAddress2" name="costing" placeholder="Enter Costing">
-        </div> -->
-        <div class="form-group col-md-6">
-          <label for="inputAddress2">Price</label>
-          <input type="number" step="0.01" class="form-control" id="inputAddress2" name="price" placeholder="Enter Price">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="inputAddress2">Profit</label>
-          <input type="number" step="0.01" class="form-control" id="inputAddress2" name="profit" placeholder="Enter Profit">
-        </div>
-        <div class="form-group col-md-6">
-          <label for="inputAddress2">Category</label>
-          <select type="select" class="form-control" id="inputAddress2" name="category_id" placeholder="Enter Category">
-            @foreach($categories as $category)
-            <option value="{{$category->id}}">{{$category->category_name}}</option>
-            @endforeach
-          </select>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="inputAddress2">Sub Category</label>
-          <select type="select" class="form-control" id="inputAddress2" name="category_id" placeholder="Enter Category">
-            @foreach($categories as $category)
-            <option value="{{$category->id}}">{{$category->category_name}}</option>
-            @endforeach
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="inputAddress2">Barcode</label>
-        <input type="text" class="form-control" id="inputAddress2" name="qr_code" placeholder="Enter Barcode">
       </div>
       <button type="submit" class="btn btn-primary">Add</button>
     </form>
   </div>
+  <form action="{{ route('de-place-order') }}" method="POST">
+    @csrf
+    <div id="adds" class="row justify-content-center" style="margin-top: 50px;">
+      <div class="col-md-5" style="border: 1px solid #000;text-align: center;font-size: 17px;color: #000;padding: 5px 0px;background: #fff">
+        <span> <b>Product Name</b> </span>
+      </div>
+      <div class="col-md-2" style="border: 1px solid #000;text-align: center;font-size: 17px;color: #000;padding: 5px 0px;background: #fff">
+        <span> <b>Unit Price</b> </span>
+      </div>
+      <div class="col-md-2" style="border: 1px solid #000;text-align: center;font-size: 17px;color: #000;padding: 5px 0px;background: #fff">
+        <span> <b>Quantity</b> </span>
+      </div>
+    </div>
+    <div class="row justify-content-center" style="margin-top: 0px;">
+      <div class="col-md-7" style="border: 1px solid #000;text-align: center;font-size: 17px;color: #000;padding: 5px 0px;background: #fff">
+        <b>Total Cost</b>
+      </div>
+      <div class="col-md-2" style="border: 1px solid #000;text-align: center;font-size: 17px;color: #000;padding: 5px 0px;background: #fff">
+        <span> <b id="total">0</b> </span>
+        <input type="hidden" id="totall" name="total" value="">
+      </div>
+    </div>
+    <input type="hidden" id="index" value="0">
+    <div class="row justify-content-center" style="margin-top: 50px;">
+      <div class="col-md-5">
+        <label for="">Customer Phone</label>
+        <input type="text" name="customer_phone" class="form-control">
+      </div>
+      <div class="col-md-5">
+        <label for="">Delivery Company</label>
+        <select name="delivery_id" class="form-control">
+          @foreach ($delivery as $item)
+              <option value="{{ $item->id }}"> {{ $item->company_name }} </option>
+          @endforeach
+        </select>
+      </div>
+      <div class="col-md-5">
+        <label for="">Delivery Charge</label>
+        <input type="text" name="delivery_charge" class="form-control">
+      </div>
+      <div class="col-md-5">
+        <label for="">Delivery Profit</label>
+        <input type="text" name="delivery_profit" class="form-control">
+      </div>
+      <div class="col-md-8" style="margin-top: 60px;">
+        <input type="submit" value="Place Order" style="width:100%" class="btn btn-success">
+      </div>
+    </div>
+  </div>
+  </form>
 
 
 
 @endsection
 
 @section('js')
-
 <script>
-  var $table = $('#table')
-  var $remove = $('#remove')
-  var selections = []
+  $('#code').on('input', function(){
+    var code = $('#code').val();
 
-  function getIdSelections() {
-    return $.map($table.bootstrapTable('getSelections'), function (row) {
-      return row.id
-    })
-  }
+    var length = code.length;
 
-  function responseHandler(res) {
-    $.each(res.rows, function (i, row) {
-      row.state = $.inArray(row.id, selections) !== -1
-    })
-    return res
-  }
+    if( length == 10)
+    {
+      $.ajax({
+        url: "/data-entry/de-add-product/"+code,
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+            html = `<div class="row">
+                      <div class="col-md-6">
+                        <label> Name </label>
+                        <input type="text" class="form-control" value="`+res.name+`" readonly>
+                      </div>
+                      <div class="col-md-6">
+                        <label> Price </label>
+                        <input type="text" class="form-control" value="`+res.price+`" readonly>
+                      </div>
+                      <div class="col-md-6">
+                        <label>Available Quantity </label>
+                        <input type="text" class="form-control" value="`+res.quantity+`" readonly>
+                      </div>
+                      <div class="col-md-6">
+                        <label> Quantity </label>
+                        <input id="quantity" type="text" class="form-control" >
+                      </div>
+                    </div>`;
 
-  function detailFormatter(index, row) {
-    var html = []
-    $.each(row, function (key, value) {
-      html.push('<p><b>' + key + ':</b> ' + value + '</p>')
-    })
-    return html.join('')
-  }
-
-  function operateFormatter(value, row, index) {
-    return [
-      '<a class="like" href="javascript:void(0)" title="Like">',
-      '<i class="fa fa-heart"></i>',
-      '</a>  ',
-      '<a class="remove" href="javascript:void(0)" title="Remove">',
-      '<i class="fa fa-trash"></i>',
-      '</a>'
-    ].join('')
-  }
-
-  window.operateEvents = {
-    'click .like': function (e, value, row, index) {
-      alert('You click like action, row: ' + JSON.stringify(row))
-    },
-    'click .remove': function (e, value, row, index) {
-      $table.bootstrapTable('remove', {
-        field: 'id',
-        values: [row.id]
-      })
+              $('.modal-body').html(html);
+              $('.modal').modal('show');
+        }
+    });
     }
-  }
 
-  function totalTextFormatter(data) {
-    return 'Total'
-  }
-
-  function totalNameFormatter(data) {
-    return data.length
-  }
-
-  function totalPriceFormatter(data) {
-    var field = this.field
-    return '$' + data.map(function (row) {
-      return +row[field].substring(1)
-    }).reduce(function (sum, i) {
-      return sum + i
-    }, 0)
-  }
-
-  function initTable() {
-    $table.bootstrapTable('destroy').bootstrapTable({
-      height: 550,
-      locale: $('#locale').val(),
-      columns: [
-        [{
-          field: 'state',
-          checkbox: true,
-          rowspan: 2,
-          align: 'center',
-          valign: 'middle'
-        }, {
-          title: 'Item ID',
-          field: 'id',
-          rowspan: 2,
-          align: 'center',
-          valign: 'middle',
-          sortable: true,
-          footerFormatter: totalTextFormatter
-        }, {
-          title: 'Item Detail',
-          colspan: 3,
-          align: 'center'
-        }],
-        [{
-          field: 'name',
-          title: 'Item Name',
-          sortable: true,
-          footerFormatter: totalNameFormatter,
-          align: 'center'
-        }, {
-          field: 'price',
-          title: 'Item Price',
-          sortable: true,
-          align: 'center',
-          footerFormatter: totalPriceFormatter
-        }, {
-          field: 'operate',
-          title: 'Item Operate',
-          align: 'center',
-          clickToSelect: false,
-          events: window.operateEvents,
-          formatter: operateFormatter
-        }]
-      ]
-    })
-    $table.on('check.bs.table uncheck.bs.table ' +
-      'check-all.bs.table uncheck-all.bs.table',
-    function () {
-      $remove.prop('disabled', !$table.bootstrapTable('getSelections').length)
-
-      // save your data, here just save the current page
-      selections = getIdSelections()
-      // push or splice the selections if you want to save all data selections
-    })
-    $table.on('all.bs.table', function (e, name, args) {
-      console.log(name, args)
-    })
-    $remove.click(function () {
-      var ids = getIdSelections()
-      $table.bootstrapTable('remove', {
-        field: 'id',
-        values: ids
-      })
-      $remove.prop('disabled', true)
-    })
-  }
-
-  $(function() {
-    initTable()
-
-    $('#locale').change(initTable)
-  })
+    
+  });
 </script>
 
 <script>
-$(document).ready(function(){
-  $('.dropdown-submenu a.test').on("click", function(e){
-    $(this).next('ul').toggle();
-    e.stopPropagation();
-    e.preventDefault();
-  });
-});
+  function add_prod(){
+
+    var index = document.getElementById('index').value;
+
+    index = index +1;
+
+    var code = $('#code').val();
+
+    var quantity = $('#quantity').val();
+
+    $.ajax({
+        url: "/data-entry/de-add/"+code,
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+            var html2 = `<div class="col-md-5" style="border: 1px solid #000;text-align: center;font-size: 17px;padding: 5px 0px;background: #fff">
+                          <input type="hidden" name="product[`+index+`][id]" value="`+res.data.id+`">
+                          <input type="text" value="`+res.data.name+`-`+res.color.color+`-`+res.size.size+`-`+res.brand.brand+`" class="form-control" readonly>
+                         </div>
+                         <div class="col-md-2" style="border: 1px solid #000;text-align: center;font-size: 17px;padding: 5px 0px;background: #fff">
+                          <span>`+res.data.price+`</span>
+                         </div>
+                         <div class="col-md-2" style="border: 1px solid #000;text-align: center;font-size: 17px;padding: 5px 0px;background: #fff">
+                          <input type="text" value="`+quantity+`" name="product[`+index+`][quantity]" class="form-control" readonly>
+                         </div>`;
+            $('#adds').append(html2);
+
+            $('.modal').modal('hide');
+
+             var pre = $('#total').text();
+
+             var prev = parseInt(pre);
+
+             console.log(prev);
+
+             var to = res.data.price * quantity;
+
+             prev = prev + to;
+
+             document.getElementById('index').value = index;
+
+             $('#total').html(prev);
+             $('#totall').val(prev);
+
+        }
+    });
+  };
 </script>
+@endsection
+
+@section('modal')
+    <div class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Product Detail</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Modal body text goes here.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" onclick="add_prod()" class="btn btn-primary">Add To Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
 @endsection

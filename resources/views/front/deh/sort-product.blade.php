@@ -4,14 +4,6 @@
 @section('content')
   <div class="container-fluid">
       <br>
-      @if(session()->has('error'))
-      <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Error</strong> {{ session()->get('error') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-        @endif 
       <br>
       <div class="form-row">
         <div class="form-group col-md-6">
@@ -36,25 +28,86 @@
       <form action="{{route('de-insert-product')}}" method="post">
         @csrf
         <div id="start">
+            @if ($sorts != null)
+                @foreach ($sorts as $sort)
+                <div class="form-row">
+                  <div class="form-group col-md-2">
+                      <label for="inputAddress">Product Name</label>
+                      <input type="text" class="form-control" id="inputPassword4" name="product[{{ $sort->id }}][name]" value="{{ $sort->name }}">
+                  </div>
+                  <div class="form-group col-md-2">
+                      <label for="inputAddress">Quantity</label>
+                      <input type="text" class="form-control" id="inputPassword4" name="product[{{ $sort->id }}][quantity]" value="{{ $sort->quantity }}">
+                  </div>
+                  <div class="form-group col-md-2">
+                      <label for="inputAddress">Brand</label>
+                      <select class="form-control" name="product[{{ $sort->id }}][brand]">
+                        @foreach ($brand as $item)
+                            <option {{ $sort->brand_id == $item->id ? "selected":"" }}  value="{{ $item->id }}">{{ $item->brand }}</option>
+                        @endforeach
+                      </select>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="inputAddress">Color</label>
+                    <select class="form-control" name="product[{{ $sort->id }}][color]">
+                      @foreach ($color as $item)
+                          <option {{ $sort->color_id == $item->id ? "selected":"" }} value="{{ $item->id }}">{{ $item->color }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="inputAddress">Size</label>
+                    <select class="form-control" name="product[{{ $sort->id }}][size]">
+                      @foreach ($size as $item)
+                          <option {{ $sort->size_id == $item->id ? "selected":"" }} value="{{ $item->id }}">{{ $item->size }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <a class="btn btn-danger trash" href="#">Remove</a>
+                </div>
+              </div>
+                @endforeach
+            @endif
             <div class="form-row">
                 <input type="hidden" value="1" id="index">
                 <input type="hidden" value="{{ $product->id }}" name="id">
                 <input type="hidden" value="{{ $product->quantity }}" name="quantity">
                 <input type="hidden" value="{{ $product->costing }}" name="cost">
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     <label for="inputAddress">Product Name</label>
                     <input type="text" class="form-control" id="inputPassword4" name="product[0][name]" value="">
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     <label for="inputAddress">Quantity</label>
                     <input type="text" class="form-control" id="inputPassword4" name="product[0][quantity]" value="">
                 </div>
-                <div class="form-group col-md-3">
-                    <label for="inputAddress">Barcode</label>
-                    <input type="text" class="form-control" id="inputPassword4" name="product[0][barcode]" value="">
+                <div class="form-group col-md-2">
+                    <label for="inputAddress">Brand</label>
+                    <select class="form-control" name="product[0][brand]">
+                      @foreach ($brand as $item)
+                          <option value="{{ $item->id }}">{{ $item->brand }}</option>
+                      @endforeach
+                    </select>
                 </div>
-                <div class="form-group col-md-3">
-                    <a class="btn btn-success" onclick="addproduct()" href="#">Add</a>
+                <div class="form-group col-md-2">
+                  <label for="inputAddress">Color</label>
+                  <select class="form-control" name="product[0][color]">
+                    @foreach ($color as $item)
+                        <option value="{{ $item->id }}">{{ $item->color }}</option>
+                    @endforeach
+                  </select>
+              </div>
+              <div class="form-group col-md-2">
+                <label for="inputAddress">Size</label>
+                <select class="form-control" name="product[0][size]">
+                  @foreach ($size as $item)
+                      <option value="{{ $item->id }}">{{ $item->size }}</option>
+                  @endforeach
+                </select>
+            </div>
+                <div class="form-group col-md-2">
+                    <a style="margin-top: 30px;" class="btn btn-success" onclick="addproduct()" href="#">Add</a>
                 </div>
             </div>
         </div>
@@ -231,24 +284,58 @@ $(document).ready(function(){
 
 <script>
     function addproduct(){
+        var brands = {!! json_encode($brand, JSON_HEX_TAG) !!};
+        brand = [];
+        brands.forEach(function (data){
+          brand += ` <option value="`+data.id+`">`+data.brand+`</option>` 
+        });
+
+        var sizes = {!! json_encode($size, JSON_HEX_TAG) !!};
+        size = [];
+        sizes.forEach(function (data){
+          size += ` <option value="`+data.id+`">`+data.size+`</option>` 
+        });
+        var colors = {!! json_encode($color, JSON_HEX_TAG) !!};
+        color = [];
+        colors.forEach(function (data){
+          color += ` <option value="`+data.id+`">`+data.color+`</option>` 
+        });
+
         index = document.getElementById('index').value;
 
         addindex = document.getElementById('index').value = index + 1;
 
         html = `<div class="form-row">
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-2">
             <label for="inputAddress">Product Name</label>
             <input type="text" class="form-control" id="inputPassword4" name="product[`+index+`][name]" value="">
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-2">
             <label for="inputAddress">Quantity</label>
             <input type="text" class="form-control" id="inputPassword4" name="product[`+index+`][quantity]" value="">
         </div>
-        <div class="form-group col-md-3">
-            <label for="inputAddress">Barcode</label>
-            <input type="text" class="form-control" id="inputPassword4" name="product[`+index+`][barcode]" value="">
+        <div class="form-group col-md-2">
+          <label for="inputAddress">Brand</label>
+          <select class="form-control" name="product[`+index+`][brand]">
+            `+brand+
+            `
+          </select>
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-2">
+          <label for="inputAddress">Color</label>
+          <select class="form-control" name="product[`+index+`][color]">
+            `+color+
+            `
+          </select>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="inputAddress">Size</label>
+          <select class="form-control" name="product[`+index+`][size]">
+            `+size+
+            `
+          </select>
+        </div>
+        <div class="form-group col-md-2">
             <a class="btn btn-danger trash" href="#">Remove</a>
         </div>
         </div>`;

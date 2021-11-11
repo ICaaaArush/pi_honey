@@ -36,7 +36,7 @@ class DeliveryCompanyController extends Controller
 
         $company->save();
 
-        return back()->with('message', 'Product Uploaded Successfully!');
+        return back()->with('success', 'Delivery Company Uploaded Successfully!');
     }
 
     public function CategoryList()
@@ -56,14 +56,16 @@ class DeliveryCompanyController extends Controller
     }
 
     public function InsertCategory(Request $request)
-    {
+    {   $ran = rand(100, 999);
         //  INSERT DELIVERY COMPANY
         $category = new Category;
+
+        $category->id = $ran;
 
         $category->category_name = $request->input('category_name');
 
         $category->save();
 
-        return back()->with('message', 'Product Uploaded Successfully!');
+        return redirect(route('category-list'))->with('success', 'Category Uploaded Successfully!');
     }
 }
