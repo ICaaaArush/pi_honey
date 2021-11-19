@@ -14,6 +14,11 @@ class Product extends Model
         return $this->belongsTo(Category::class);   
     }
 
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);   
+    }
+
     public function subcategory()
     {
         return $this->hasMany(SubCategory::class);

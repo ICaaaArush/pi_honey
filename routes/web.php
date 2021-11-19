@@ -61,6 +61,18 @@ Route::middleware(['auth', 'supmin'])->prefix('/supmin')->group(function () {
     Route::middleware(['auth:sanctum', 'verified'])->get('/add-quality', [SuperAdminController::class, 'add_quality'])->name('add-quality');
     Route::middleware(['auth:sanctum', 'verified'])->post('/add-quality', [SuperAdminController::class, 'store_quality'])->name('add-quality');
     Route::middleware(['auth:sanctum', 'verified'])->get('/delete-quality/{id}', [SuperAdminController::class, 'delete_quality'])->name('delete-quality');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/branch-list', [SuperAdminController::class, 'branch_list'])->name('branch-list');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/add-branch', [SuperAdminController::class, 'add_branch'])->name('add-branch');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/add-branch', [SuperAdminController::class, 'store_branch'])->name('add-branch');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/delete-branch/{id}', [SuperAdminController::class, 'delete_branch'])->name('delete-branch');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/sub-category-list', [DeliveryCompanyController::class, 'SubCategoryList'])->name('sub-category-list');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/add-sub-category', [DeliveryCompanyController::class, 'AddSubCategory'])->name('add-sub-category');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/add-sub-category', [DeliveryCompanyController::class, 'InsertSubCategory'])->name('add-sub-category');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/delete-sub-cat/{id}', [CommonController::class, 'DeleteSubCategory'])->name('delete-sub-cat');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/season-list', [DeliveryCompanyController::class, 'SeasonList'])->name('season-list');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/add-sseason', [DeliveryCompanyController::class, 'AddSeason'])->name('add-season');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/add-season', [DeliveryCompanyController::class, 'InsertSeason'])->name('add-season');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/delete-season/{id}', [CommonController::class, 'DeleteSeason'])->name('delete-season');
     
 });
 
@@ -72,6 +84,8 @@ Route::middleware(['auth', 'dataentry'])->prefix('/data-entry')->group(function 
     Route::middleware(['auth:sanctum', 'verified'])->post('/place-order', [DataEntryHandler::class, 'store_order'])->name('de-place-order');
     Route::middleware(['auth:sanctum', 'verified'])->get('/de-add-product/{id}', [DataEntryHandler::class, 'add_product']);
     Route::middleware(['auth:sanctum', 'verified'])->get('/de-add/{id}', [DataEntryHandler::class, 'add']);
+    Route::middleware(['auth:sanctum', 'verified'])->get('/add-return-product', [DataEntryHandler::class, 'add_return_product'])->name('de-add-return-product');
+    Route::middleware(['auth:sanctum', 'verified'])->post('/store-return-order', [DataEntryHandler::class, 'store_return_product'])->name('de-place--return-product');
 });
 
 // USER DASHBOARD
@@ -79,7 +93,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [DashboardCon
 
 //  MANAGER ROUTES START
 //  CHECK IF MANAGER
-// Route::middleware([EnsureAuthManager::class])->group(function () {
+Route::middleware(['auth'])->prefix('/manager')->group(function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/ma-add-product', [ManagerController::class, 'AddProduct'])->name('ma-add-product');
 
@@ -91,17 +105,21 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/ma-save-price', [Manager
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/ma-sorted-product-list', [ManagerController::class, 'SortedProductList'])->name('ma-sorted-product-list');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/ma-return-product-list', [ManagerController::class, 'ReturnProductList'])->name('ma-return-product-list');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/ma-change-status', [ManagerController::class, 'ChangeSortStatus'])->name('ma-change-status');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/ma-edit/{id}', [ManagerController::class, 'MaEdit'])->name('ma-edit');
 
-// });
+Route::middleware(['auth:sanctum', 'verified'])->post('/ma-confirm-return-product', [ManagerController::class, 'confirm_return'])->name('ma-confirm-return-product');
+
+});
 //  MANAGER ROUTES END
 
 
 //  SUPPLY HANDLER ROUTES START
 //  CHECK IF SUPPLYHANDLER
-// Route::middleware([UserIsSupplyHander::class])->group(function () {
+Route::middleware(['auth'])->prefix('/supply-handler')->group(function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/sh-add-product', [SupplyHandlerController::class, 'AddProduct'])->name('sh-add-product');
 
@@ -113,11 +131,15 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/sh-add-supplier', [Supply
 
 Route::middleware(['auth:sanctum', 'verified'])->post('/sh-insert-supplier', [SupplyHandlerController::class, 'InsertSupplier'])->name('sh-insert-supplier');
 
+Route::middleware(['auth:sanctum', 'verified'])->post('/sh-update-supplier', [SupplyHandlerController::class, 'UpdateSupplier'])->name('sh-update-supplier');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/sh-supplier-list', [SupplyHandlerController::class, 'SupplierList'])->name('sh-supplier-list');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/delete-supplier/{id}', [CommonController::class, 'DeleteSupplier'])->name('delete-supplier');
 
-// });
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-supplier/{id}', [SupplyHandlerController::class, 'EditSupplier'])->name('edit-supplier');
+
+});
 
 //  SUPPLY HANDLER ROUTES END
 
@@ -133,3 +155,11 @@ Route::get('/delete/{id}', [CommonController::class, 'DeleteProduct'])->name('de
 Route::get('/delete/main/{id}', [CommonController::class, 'DeleteMainProduct'])->name('delete-main');
 
 Route::get('/orders', [CommonController::class, 'orders'])->name('orders');
+
+Route::get('/customers', [CommonController::class, 'customers'])->name('customers');
+
+Route::get('/de-get-product-detail/{id}', [CommonController::class, 'get_product_detail']);
+
+Route::get('/de-get-products-detail/{id}', [CommonController::class, 'get_products_detail']);
+
+

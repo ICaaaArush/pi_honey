@@ -13,18 +13,18 @@
       <th scope="col">Supplier Name</th>
       <th scope="col">Supplier Tell</th>
       <th scope="col">Supplier Address</th>
-      <th scope="col">Delete</th>
+      <th scope="col">Action</th>
     </tr>
   </thead>
-  @foreach($listings as $listing)
+  @foreach($listings as $key => $listing)
   <tbody>
     <tr>
-      <th scope="row">{{$listing->id}}</th>
+      <th scope="row">{{$key + 1}}</th>
       <td>{{$listing->supplier_name}}</td>
       <td>{{$listing->supplier_tell}}</td>
       <td>{{$listing->address}}</td>
       <td>
-        
+          <a href="{{route('edit-supplier',[$listing->id])}}" class="btn btn-primary fa fa-trash">Edit</a>
           <a href="{{route('delete-supplier',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
       </td>
     </tr>

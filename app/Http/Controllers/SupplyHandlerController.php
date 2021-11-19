@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\DeliveryCompany;
 use App\Models\Category;
+use App\Models\Branch;
 use App\Models\SupplierDetail;
 use Carbon\Carbon;;
 use Illuminate\Support\Facades\DB;
@@ -29,9 +30,10 @@ class SupplyHandlerController extends Controller
         $suppliers = SupplierDetail::get();
         $listings = Product::paginate(25);
         $categories = Category::get();
+        $branches = Branch::get();
 
         //  VIEW ADD PRODUCTS PAGE
-        return view('front.supplyHandler.add-product', compact('listings','categories','suppliers'));
+        return view('front.supplyHandler.add-product', compact('listings','categories','suppliers','branches'));
     }
 
     public function InsertProduct(Request $request)
@@ -39,24 +41,34 @@ class SupplyHandlerController extends Controller
 
         $sup = SupplierDetail::where('id',$request->supplier)->first();
 
-        $date = Carbon::now()->format('dm');
+        $date = Carbon::now()->format('ymd');
 
         //  INSERT DELIVERY COMPANY
         $product = new Product;
         $product->id = $ran;
         $product->name = $request->input('name');
+        $product->branch_id = $request->input('branch_id');
         $product->quantity = $request->input('quantity');
         $product->supplier_id = $request->input('supplier');
         $product->costing = $request->input('costing');
-        $product->price = $request->input('price');
-        $product->profit = $request->input('profit');
         $product->category_id = $request->input('category_id');
         // $product->sub_category_id = $request->input('sub_category_id');
 
 
         $product->save();
 
-        $barcode = $sup->id.$product->id.$date;
+        if (strlen($product->quantity) == 2) {
+            $qu = '00'.$product->quantity;
+        } elseif(strlen($product->quantity) == 3) {
+            $qu = '0'.$product->quantity;
+        } elseif(strlen($product->quantity) == 1) {
+            $qu = '000'.$product->quantity;
+        } else{
+            $qu = $product->quantity;
+        }
+        
+
+        $barcode = $sup->id.$qu.$date;
 
         $bar_add = Product::where('id',$product->id)->update([
             'bar_code_sh' => $barcode
@@ -71,8 +83,14 @@ class SupplyHandlerController extends Controller
         return view('front.supplyHandler.add-supplier', compact('suppliers'));
     }
 
+    public function EditSupplier($id)
+    {
+        $supplier = SupplierDetail::where('id',$id)->first();
+        return view('front.supplyHandler.edit-supplier', compact('supplier'));
+    }
+
     public function InsertSupplier(Request $request)
-    {   $ran = rand(100, 999);
+    {   $ran = rand(1000, 9999);
         //  INSERT DELIVERY COMPANY
         $suppiler = new SupplierDetail;
         $suppiler->id = $ran;
@@ -86,6 +104,19 @@ class SupplyHandlerController extends Controller
         $suppiler->save();
 
         return redirect(route('sh-supplier-list'))->with('success', 'Supplier Uploaded Successfully!');
+    }
+
+    public function UpdateSupplier(Request $request)
+    {   
+        $update = SupplierDetail::where('id',$request->id)->update([
+            'email' => $request->email,
+            'alt_supplier_tell' => $request->alt_supplier_tell,
+            'supplier_name' => $request->supplier_name,
+            'supplier_tell' => $request->supplier_tell,
+            'address' => $request->address,
+        ]);
+
+        return redirect(route('sh-supplier-list'))->with('success', 'Supplier Updated Successfully!');
     }
 
     public function SupplierList()

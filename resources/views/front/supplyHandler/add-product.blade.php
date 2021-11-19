@@ -12,10 +12,10 @@
     <br>
     <br>
     <div class="form-row">
-      <div class="form-group col-md-6">
+      {{-- <div class="form-group col-md-6">
         <label for="inputEmail4">Product Name</label>
         <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="Enter Name">
-      </div>
+      </div> --}}
       <div class="form-group col-md-6">
         <label for="inputPassword4">Quantity</label>
         <input type="number" step="0.01" class="form-control" id="inputPassword4" name="quantity" placeholder="Enter Number">
@@ -49,6 +49,14 @@
         <select type="select" class="form-control" id="inputAddress2" name="category_id" placeholder="Enter Category">
           @foreach($categories as $category)
           <option value="{{$category->id}}">{{$category->category_name}}</option>
+          @endforeach
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputAddress2">Branch</label>
+        <select type="select" class="form-control" id="inputAddress2" name="branch_id" placeholder="Enter Category">
+          @foreach($branches as $item)
+          <option value="{{$item->id}}">{{$item->branch}}</option>
           @endforeach
         </select>
       </div>

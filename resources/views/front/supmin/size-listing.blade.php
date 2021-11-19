@@ -18,10 +18,10 @@
 
     </tr>
   </thead>
-  @foreach($data as $listing)
+  @foreach($data as $key => $listing)
   <tbody>
     <tr>
-      <th scope="row">{{$listing->id}}</th>
+      <th scope="row">{{$key = 1}}</th>
       <td>{{$listing->size}}</td>
       <td>
         <a href="{{route('delete-size',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>

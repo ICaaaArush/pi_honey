@@ -13,25 +13,25 @@
   <thead>
     <tr>
       <th scope="col">ID</th>
-      <th scope="col">Name</th>
       <th scope="col">Quantity</th>
       <th scope="col">Supplier</th>
       <th scope="col">Costing</th>
       <th scope="col">Category</th>
+      <th scope="col">Branch</th>
       <th scope="col">Bar Code</th>
       <th scope="col">Delete</th>
     </tr>
   </thead>
-  @foreach($listings as $listing)
+  @foreach($listings as $key => $listing)
   <tbody>
     <tr>
-      <th scope="row">{{$listing->id}}</th>
-      <td>{{$listing->name}}</td>
+      <th scope="row">{{$key + 1}}</th>
       <td>{{$listing->quantity}}</td>
       <td>{{$listing->supplier->supplier_name}}</td>
       <td>{{$listing->costing}}</td>
       <td>{{$listing->category->category_name}}</td>
-      <td>{{$listing->bar_code_sh}}</td>
+      <td>{{$listing->branch->branch}}</td>
+      <td> <a onclick="barcode( {{$listing->bar_code_sh}} )" href="#">{{$listing->bar_code_sh}}</a> </td>
       <td>
         
           <a href="{{route('delete',[$listing->id])}}" class="btn btn-danger fa fa-trash">Delete</a>
@@ -274,6 +274,76 @@
 
 </script>
 
+<script>
+  function barcode(id)
+  { 
+    $('#details').empty();
 
+    $.ajax({
+        url: "/de-get-products-detail/"+id,
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+            html = `<div class="row">
+                      <div class="col-md-6">
+                        <b>Quickie Twinkle </b><br>
+                      </div>
+                      <div class="col-md-6">
+                        <b style="float:right">`+res.category.category_name+`</b> <br>
+                      </div>
+                    </div>`;
+
+                  $('#details').empty();
+
+                  JsBarcode("#barcode", id);
+
+                  
+
+                  $('#details').append(html);
+
+                  $('.modal').modal('show');
+        }
+    });
+  }
+</script>
+
+
+@endsection
+
+@section('modal')
+    <div class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Barcode</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div id="b" class="modal-body">
+            <div class="row justify-content-center">
+              <div class="col-md-8">
+                <div id="details">
+
+                </div>
+                <div class="row justify-content-center">
+                  <div class="col-md-10">
+                    <svg id="barcode"></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <div class="col-12" style="text-align: center">
+                <a href="javascript:void" onclick="printDiv()" rel="noopener" class="btn btn-success">
+                  <i class="fas fa-print"></i>
+                  Print
+                </a>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
 @endsection
 

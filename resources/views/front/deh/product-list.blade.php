@@ -10,28 +10,20 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
-        <th scope="col">Name</th>
         <th scope="col">Quantity</th>
         <th scope="col">Supplier</th>
-        <th scope="col">Price</th>
-        <th scope="col">Profit</th>
         <th scope="col">Category</th>
-        <th scope="col">Sub Category Id</th>
         <th scope="col">Status</th>
         <th scope="col">Sort</th>
       </tr>
     </thead>
-    @foreach($listings as $listing)
+    @foreach($listings as $key => $listing)
     <tbody>
       <tr>
-        <th scope="row">{{$listing->id}}</th>
-        <td>{{$listing->name}}</td>
+        <th scope="row">{{$key + 1}}</th>
         <td>{{$listing->quantity}}</td>
         <td>{{$listing->supplier_id}}</td>
-        <td>{{$listing->price}}</td>
-        <td>{{$listing->profit}}</td>
         <td>{{$listing->category->category_name}}</td>
-        <td>{{$listing->sub_category_id}}</td>
         <td>{{$listing->status}}</td>
         @if($listing->status == 0)
         <td><a href="{{route('sort',[$listing->id])}}" class="btn btn-danger fa fa-trash">Sort</a></td>

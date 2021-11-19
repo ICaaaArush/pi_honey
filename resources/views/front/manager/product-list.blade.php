@@ -18,10 +18,10 @@
       <th scope="col">Delete</th>
     </tr>
   </thead>
-  @foreach($listings as $listing)
+  @foreach($listings as $key => $listing)
   <tbody>
     <tr>
-      <th scope="row">{{$listing->id}}</th>
+      <th scope="row">{{$key + 1}}</th>
       <td>{{$listing->name}}</td>
       <td>{{$listing->quantity}}</td>
       <td>{{$listing->supplier->supplier_name}}</td>

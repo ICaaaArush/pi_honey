@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\DeliveryCompany;
 use App\Models\MainProduct;
 use App\Models\Product;
+use App\Models\Branch;
 use App\Models\Color;
 use App\Models\Brand;
 use App\Models\Size;
@@ -47,7 +48,7 @@ class SuperAdminController extends Controller
     {
         $check = MainProduct::where('color_id',$id)->first();
         if ($check) {
-            return back()->with('error','You Can Not Delete This Color. This Has Been User In Products!');
+            return back()->with('error','You Can Not Delete This Color. This Has Been Used In Products!');
         } else {
             $delete = Color::where('id',$id)->delete();
 
@@ -82,7 +83,7 @@ class SuperAdminController extends Controller
     {
         $check = MainProduct::where('brand_id',$id)->first();
         if ($check) {
-            return back()->with('error','You Can Not Delete This Brand. This Has Been User In Products!');
+            return back()->with('error','You Can Not Delete This Brand. This Has Been Used In Products!');
         } else {
             $delete = Brand::where('id',$id)->delete();
 
@@ -117,7 +118,7 @@ class SuperAdminController extends Controller
     {
         $check = MainProduct::where('size_id',$id)->first();
         if ($check) {
-            return back()->with('error','You Can Not Delete This Size. This Has Been User In Products!');
+            return back()->with('error','You Can Not Delete This Size. This Has Been Used In Products!');
         } else {
             $delete = Size::where('id',$id)->delete();
 
@@ -152,11 +153,46 @@ class SuperAdminController extends Controller
     {
         $check = MainProduct::where('quality_id',$id)->first();
         if ($check) {
-            return back()->with('error','You Can Not Delete This Quality. This Has Been User In Products!');
+            return back()->with('error','You Can Not Delete This Quality. This Has Been Used In Products!');
         } else {
             $delete = Quality::where('id',$id)->delete();
 
             return back()->with('error','Quality Deleted Successfully!');
+        }
+    }
+
+    public function branch_list()
+    {
+        $data = Branch::all();
+
+        return view('front.supmin.branch-listing',compact('data'));
+    }
+
+    public function add_branch()
+    {
+        return view('front.supmin.add-branch');
+    }
+
+    public function store_branch(Request $request)
+    {
+        $add = new Branch;
+
+        $add->branch = $request->branch;
+
+        $add->save();
+
+        return redirect(route('branch-list'))->with('success','Branch Added Successfully!');
+    }
+
+    public function delete_branch($id)
+    {
+        $check = Product::where('branch_id',$id)->first();
+        if ($check) {
+            return back()->with('error','You Can Not Delete This Branch. This Has Been Used In Products!');
+        } else {
+            $delete = Branch::where('id',$id)->delete();
+
+            return back()->with('error','Branch Deleted Successfully!');
         }
     }
 }

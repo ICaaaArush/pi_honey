@@ -7610,15 +7610,17 @@
 	  /*======== 11. DOUGHNUT CHART ========*/
 	  var doughnut = document.getElementById("doChart");
 	  if (doughnut !== null) {
+		var completed = document.getElementById("completed_order").value;
+		var unpaid = document.getElementById("unpaid_order").value;
 	    var myDoughnutChart = new Chart(doughnut, {
 	      type: "doughnut",
 	      data: {
-	        labels: ["completed", "unpaid", "pending", "canceled"],
+	        labels: ["completed", "unpaid"],
 	        datasets: [
 	          {
-	            label: ["completed", "unpaid", "pending", "canceled"],
-	            data: [4100, 2500, 1800, 2300],
-	            backgroundColor: ["#4c84ff", "#29cc97", "#8061ef", "#fec402"],
+	            label: ["completed", "unpaid"],
+	            data: [completed, unpaid],
+	            backgroundColor: ["#29cc97", "#4c84ff"],
 	            borderWidth: 1
 	            // borderColor: ['#4c84ff','#29cc97','#8061ef','#fec402']
 	            // hoverBorderColor: ['#4c84ff', '#29cc97', '#8061ef', '#fec402']

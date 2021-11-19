@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\DeliveryCompany;
 use App\Models\Category;
+use App\Models\SubCategory;
 use App\Models\Brand;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\ReturnProduct;
 use App\Models\Color;
 use App\Models\User;
 use App\Models\Size;
 use App\Models\MainProduct;
 use App\Models\RejectedProduct;
 use App\Models\SupplierDetail;
+use Illuminate\Support\Facades\Storage;
 use Hash;
 
 
@@ -39,8 +42,8 @@ class DataEntryHandler extends Controller
     }
 
     public function InsertProduct(Request $request)
-    { 
-        $delete = MainProduct::where('product_id',$request->id)->delete();
+    {  
+        // $delete = MainProduct::where('product_id',$request->id)->delete();
         $quantity = 0;
         $cost = $request->cost / $request->quantity; 
         foreach($request->product as $prod)
@@ -53,17 +56,39 @@ class DataEntryHandler extends Controller
         if($quantity == $request->quantity)
         {
             foreach($request->product as $prod){
-                if($prod['name'] != null & $prod['quantity'] != null){
+                if($prod['quantity'] != null){
+
+                    if(isset($prod['pic']))
+                    {
+                        if ($prod['pic'] != null) {
+                            $originalpath = $prod['pic']->store('public/product_pic');
+                    
+                            $path = str_replace('public','storage',$originalpath );
+                        }
+
+                    };
+
+
+                    $id = rand('1000000','9999999');
 
                     $add = new MainProduct;
+                    $add->id = $id;
                     $add->product_id = $request->id;
-                    $add->name = $prod['name'];
+                    $add->sub_category_id = $prod['sub_category_id'];
+                    $add->branch_id = $request->branch_id;
+                    $add->name = $prod['description'];
                     $add->quantity = $prod['quantity'];
                     $add->brand_id = $prod['brand'];
                     $add->color_id = $prod['color'];
                     $add->size_id = $prod['size'];
                     $add->quality_id = 0;
                     $add->cost = $cost;
+                    if(isset($prod['pic']) )
+                    {
+                    if ($prod['pic'] != null) {
+                    $add->pic = $path;
+                    }
+                    };
                     $add->save();
                 }
             }
@@ -84,16 +109,37 @@ class DataEntryHandler extends Controller
             return redirect(route('de-product-list'))->with('success','Product Sorted Successfully!');
         }else{
             foreach($request->product as $prod){
-                if($prod['name'] != null & $prod['quantity'] != null){
+                if($prod['quantity'] != null){
+
+                    $id = rand('1000000','9999999');
+
+                    if(isset($prod['pic']) )
+                    {
+                    if ($prod['pic'] != null) {
+                    $originalpath = $prod['pic']->store('public/product_pic');
+            
+                    $path = str_replace('public','storage',$originalpath );
+                    }
+                    };
+
                     $add = new MainProduct;
+                    $add->id = $id;
                     $add->product_id = $request->id;
-                    $add->name = $prod['name'];
+                    $add->sub_category_id = $prod['sub_category_id'];
+                    $add->branch_id = $request->branch_id;
+                    $add->name = $prod['description'];
                     $add->quantity = $prod['quantity'];
                     $add->brand_id = $prod['brand'];
                     $add->color_id = $prod['color'];
                     $add->size_id = $prod['size'];
                     $add->quality_id = 0;
                     $add->cost = $cost;
+                    if(isset($prod['pic']) )
+                    {
+                    if ($prod['pic'] != null) {
+                    $add->pic = $path;
+                    }
+                    }
                     $add->save();
                 }
             }
@@ -127,10 +173,11 @@ class DataEntryHandler extends Controller
         $brand = Brand::all();
         $size = Size::all();
         $color = Color::all();
+        $sub_category = SubCategory::where('category_id',$product->category_id)->get();
         $sorts = MainProduct::where('product_id',$id)->get();
 
         //  VIEW UNSORTED PRODUCT
-        return view('front.deh.sort-product', compact('product','brand','color','size','sorts'));
+        return view('front.deh.sort-product', compact('product','brand','color','size','sorts','sub_category'));
     }
 
     public function add_order()
@@ -142,6 +189,12 @@ class DataEntryHandler extends Controller
     public function add_product($id)
     {
         $data = MainProduct::where('m_barcode',$id)->first();
+
+        $data['color'] = Color::where('id',$data->color_id)->first();
+
+        $data['size'] = Size::where('id',$data->size_id)->first();
+
+        $data['brand'] = Brand::where('id',$data->brand_id)->first();
 
         return $data;
     }
@@ -162,7 +215,7 @@ class DataEntryHandler extends Controller
     }
 
     public function store_order(Request $request)
-    {
+    { 
         $check = User::where('phone',$request->customer_phone)->first();
 
         if ($check) {
@@ -170,8 +223,13 @@ class DataEntryHandler extends Controller
         } else {
             $rand = rand('1','1000');
             $create = new User;
-            $create->name = 'customer'.$rand;
-            $create->email = 'email'.$rand.'@mail.com';
+            $create->name = $request->customer_name;
+            if ($request->customer_email == null) {
+                $create->email = 'email'.$rand.'@mail.com';
+            } else {
+                $create->email = $request->customer_email;
+            }
+            $create->dob = $request->customer_dob;
             $create->password = Hash::make($rand);
             $create->role = 'user';
             $create->phone = $request->customer_phone;
@@ -185,6 +243,8 @@ class DataEntryHandler extends Controller
         $order->delivery_company_id = $request->delivery_id;
         $order->delivery_profit = $request->delivery_profit;
         $order->delivery_charge = $request->delivery_charge;
+        $order->precessing_fee = $request->processing_fee;
+        $order->precessing_percentage = $request->processing_percentage;
         $order->total = $request->total;
         $order->save();
 
@@ -206,6 +266,30 @@ class DataEntryHandler extends Controller
 
         return back()->with('success','Order Placed Successfully!');
 
+        
+    }
+
+    public function add_return_product()
+    {
+        return view('front.deh.add-return-product');
+    }
+
+    public function store_return_product(Request $request)
+    {
+        $check = MainProduct::where('m_barcode', $request->main_product_barcode)->first();
+
+        if ($check) {
+            $add =  new ReturnProduct;
+            $add->main_product_barcode = $request->main_product_barcode;
+            $add->order_id = $request->order_id;
+            $add->user_phone = $request->user_phone;
+            $add->quantity = $request->quantity;
+            $add->save();
+
+            return back()->with('success','Return Product Notice Added Successfully!');
+        } else {
+            return back()->with('error','Product Not Found!');
+        }
         
     }
 }

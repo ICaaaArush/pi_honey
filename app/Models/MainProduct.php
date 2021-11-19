@@ -34,4 +34,9 @@ class MainProduct extends Model
         return $this->belongsTo(Quality::class); 
     }
 
+    public function orders()
+    {
+        return $this->hasMany(OrderDetail::class)->orderBy('quantity','asc'); 
+    }
+
 }

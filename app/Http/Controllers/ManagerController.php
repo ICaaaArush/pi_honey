@@ -9,6 +9,9 @@ use App\Models\DeliveryCompany;
 use App\Models\Category;
 use App\Models\Quality;
 use App\Models\SupplierDetail;
+use App\Models\ReturnProduct;
+use App\Models\OrderDetail;
+use App\Models\Order;
 use Carbon\Carbon;
 
 class ManagerController extends Controller
@@ -39,10 +42,9 @@ class ManagerController extends Controller
 
         $sup = Product::where('id',$productss->product_id)->first();
 
-        $date = Carbon::now()->format('dm');
+        $date = Carbon::now()->format('mY');       
         
-        
-        $barcode =  $sup->supplier_id.$sup->category_id.$date;
+        $barcode =  $sup->supplier_id.$date.$request->productId;
 
         $product = MainProduct::find($request->productId);
 
@@ -52,7 +54,7 @@ class ManagerController extends Controller
 
         $product->save();
 
-        return back()->with('message', 'Product Uploaded Successfully!');
+        return redirect('/manager/ma-sorted-product-list')->with('success', 'Product Uploaded Successfully!');
     }
 
     //  ADD PRICE TO PRODUCT
@@ -96,5 +98,36 @@ class ManagerController extends Controller
 
         
         return view('front.manager.edit-product', compact('listings','categories','suppliers','qualities'));
+    }
+
+    public function ReturnProductList()
+    {
+        $data = ReturnProduct::latest()->get();
+
+        return view('front.manager.return-product-list',compact('data'));
+    }
+
+    public function confirm_return(Request $request)
+    {
+        $data = ReturnProduct::where('id',$request->id)->first();
+
+        $preproduct = MainProduct::where('m_barcode', $data->main_product_barcode)->first();
+
+        $product = MainProduct::where('m_barcode', $data->main_product_barcode)->update([
+            'quantity' => $preproduct->quantity + $data->quantity
+        ]);
+
+        $update = ReturnProduct::where('id',$request->id)->update([
+            'status' => 1,
+            'note' => $request->note
+        ]);
+
+        $orderdetail = OrderDetail::where('order_id',$data->order_id)->where('main_product_id', $preproduct->id)->first();
+
+        $update_order = OrderDetail::where('order_id',$data->order_id)->where('main_product_id', $preproduct->id)->update([
+            'quantity' => $orderdetail->quantity - $data->quantity
+        ]);
+
+        return back()->with('success','Return Product Confirmed Successfully!');
     }
 }

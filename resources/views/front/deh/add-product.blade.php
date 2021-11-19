@@ -41,8 +41,20 @@
     <input type="hidden" id="index" value="0">
     <div class="row justify-content-center" style="margin-top: 50px;">
       <div class="col-md-5">
+        <label for="">Customer Name</label>
+        <input type="text" name="customer_name" class="form-control" required>
+      </div>
+      <div class="col-md-5">
+        <label for="">Customer email (optional)</label>
+        <input type="text" name="customer_email" class="form-control">
+      </div>
+      <div class="col-md-5">
+        <label for="">Customer Date Of Birth</label>
+        <input type="date" name="customer_dob" class="form-control" required>
+      </div>
+      <div class="col-md-5">
         <label for="">Customer Phone</label>
-        <input type="text" name="customer_phone" class="form-control">
+        <input type="text" name="customer_phone" class="form-control" required>
       </div>
       <div class="col-md-5">
         <label for="">Delivery Company</label>
@@ -54,11 +66,19 @@
       </div>
       <div class="col-md-5">
         <label for="">Delivery Charge</label>
-        <input type="text" name="delivery_charge" class="form-control">
+        <input type="text" name="delivery_charge" class="form-control" required>
       </div>
       <div class="col-md-5">
         <label for="">Delivery Profit</label>
-        <input type="text" name="delivery_profit" class="form-control">
+        <input type="text" name="delivery_profit" class="form-control" required>
+      </div>
+      <div class="col-md-5">
+        <label for="">Enter Processing Fee (%)</label>
+        <input type="text" id="percentage" name="processing_percentage" class="form-control">
+      </div>
+      <div class="col-md-5">
+        <label for="">Processing Fee</label>
+        <input type="text" id="fee" name="processing_fee" class="form-control" readonly>
       </div>
       <div class="col-md-8" style="margin-top: 60px;">
         <input type="submit" value="Place Order" style="width:100%" class="btn btn-success">
@@ -78,7 +98,7 @@
 
     var length = code.length;
 
-    if( length == 10)
+    if( length == 17)
     {
       $.ajax({
         url: "/data-entry/de-add-product/"+code,
@@ -89,6 +109,18 @@
                       <div class="col-md-6">
                         <label> Name </label>
                         <input type="text" class="form-control" value="`+res.name+`" readonly>
+                      </div>
+                      <div class="col-md-6">
+                        <label> Color </label>
+                        <input type="text" class="form-control" value="`+res.color.color+`" readonly>
+                      </div>
+                      <div class="col-md-6">
+                        <label> Brand </label>
+                        <input type="text" class="form-control" value="`+res.brand.brand+`" readonly>
+                      </div>
+                      <div class="col-md-6">
+                        <label> Size </label>
+                        <input type="text" class="form-control" value="`+res.size.size+`" readonly>
                       </div>
                       <div class="col-md-6">
                         <label> Price </label>
@@ -111,6 +143,20 @@
     }
 
     
+  });
+</script>
+
+<script>
+  $('#percentage').on('input', function(){
+    
+    val =  $('#percentage').val();
+
+    total = $('#totall').val();
+
+    devided = total/100;
+
+    output = $('#fee').val(devided * val);
+
   });
 </script>
 

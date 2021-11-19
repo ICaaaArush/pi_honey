@@ -1,45 +1,83 @@
 @extends('front.layouts.main')
 
-
+@section('header_style')
+    <style>
+    #start .form-row{
+    background: #8e8e8e;
+    }
+    #start .form-row input{
+    background: #a7a7a7;
+    }
+    #start .form-row select{
+    background: #a7a7a7;
+    }
+    #start .form-row:last-child{
+    background: #fff;
+    }
+    #start .form-row:last-child input{
+    background: #fff;
+    }
+    #start .form-row:last-child select{
+    background: #fff;
+    }
+    .trash {
+    margin-top: 30px;
+    }
+    </style>
+@endsection
 @section('content')
   <div class="container-fluid">
       <br>
       <br>
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="inputEmail4">Product Lot Name</label>
-          <input type="text" class="form-control" id="inputEmail4" name="name" value="{{ $product->name }}" readonly>
+          <label for="inputPassword4">Quantity</label>
+          <input type="number" step="0.01" class="form-control" id="quantity" name="quantity" value="{{ $product->quantity }}" readonly>
         </div>
         <div class="form-group col-md-6">
-          <label for="inputPassword4">Quantity</label>
-          <input type="number" step="0.01" class="form-control" id="inputPassword4" name="quantity" value="{{ $product->quantity }}" readonly>
+          <label for="inputPassword4">Total Sorted</label>
+          <input type="number" step="0.01" class="form-control" id="total_sorted" value="{{ $product->total_sorted }}" readonly>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="inputAddress">Supplier</label>
-          <input type="text" class="form-control" id="inputPassword4" name="supplier" value="{{ $product->supplier->supplier_name }}" readonly>
+          <input type="text" class="form-control" id="inputPassword4" name="supplier" value="{{ $product->supplier->id }}" readonly>
         </div>
         <div class="form-group col-md-6">
             <label for="inputAddress">Category</label>
             <input type="text" class="form-control" id="inputPassword4" name="category" value="{{ $product->category->category_name }}" readonly>
         </div>
       </div>
-      <form action="{{route('de-insert-product')}}" method="post">
+      <form action="{{route('de-insert-product')}}" method="post" enctype="multipart/form-data">
         @csrf
+        <input type="hidden" name="branch_id" value="{{ $product->branch_id }}">
         <div id="start">
             @if ($sorts != null)
                 @foreach ($sorts as $sort)
                 <div class="form-row">
                   <div class="form-group col-md-2">
-                      <label for="inputAddress">Product Name</label>
-                      <input type="text" class="form-control" id="inputPassword4" name="product[{{ $sort->id }}][name]" value="{{ $sort->name }}">
+                    <img src="{{ asset('public/'.$sort->pic) }}" class="img-fluid" id="output" style="width: 50px" alt="">
+                    <label for="inputAddress">Product Image</label>
+                    <input accept="image/*" type="file" class="form-control file" id="inputPassword4" name="product[{{ $sort->id }}][pic]" value="{{ $sort->pic }}">
+                </div>
+                  <div class="form-group col-md-2">
+                      <label for="inputAddress">Product Description</label>
+                      <input type="text" class="form-control" id="inputPassword4" name="product[{{ $sort->id }}][description]" value="{{ $sort->description }}">
                   </div>
                   <div class="form-group col-md-2">
                       <label for="inputAddress">Quantity</label>
-                      <input type="text" class="form-control" id="inputPassword4" name="product[{{ $sort->id }}][quantity]" value="{{ $sort->quantity }}">
+                      <input type="text" class="form-control" id="quantity" name="product[{{ $sort->id }}][quantity]" value="{{ $sort->quantity }}">
                   </div>
                   <div class="form-group col-md-2">
+                    <label for="inputAddress">Sub Category</label>
+                    <select class="form-control" name="product[{{ $sort->id }}][sub_category_id]">
+                      @foreach ($sub_category as $item)
+                          <option {{ $sort->sub_category_id == $item->id ? "selected":"" }}  value="{{ $item->id }}">{{ $item->sub_category }}</option>
+                      @endforeach
+                    </select>
+                </div>
+                  <div class="form-group col-md-1">
                       <label for="inputAddress">Brand</label>
                       <select class="form-control" name="product[{{ $sort->id }}][brand]">
                         @foreach ($brand as $item)
@@ -47,7 +85,7 @@
                         @endforeach
                       </select>
                   </div>
-                  <div class="form-group col-md-2">
+                  <div class="form-group col-md-1">
                     <label for="inputAddress">Color</label>
                     <select class="form-control" name="product[{{ $sort->id }}][color]">
                       @foreach ($color as $item)
@@ -55,7 +93,7 @@
                       @endforeach
                     </select>
                   </div>
-                  <div class="form-group col-md-2">
+                  <div class="form-group col-md-1">
                     <label for="inputAddress">Size</label>
                     <select class="form-control" name="product[{{ $sort->id }}][size]">
                       @foreach ($size as $item)
@@ -63,8 +101,9 @@
                       @endforeach
                     </select>
                   </div>
-                  <div class="form-group col-md-2">
-                    <a class="btn btn-danger trash" href="#">Remove</a>
+                  <div class="form-group col-md-1">
+                    <a class="btn btn-primary edit" href="#"><b>edit</b></a>
+                    <a class="btn btn-danger trash" href="#"><b>X</b></a>
                 </div>
               </div>
                 @endforeach
@@ -75,14 +114,27 @@
                 <input type="hidden" value="{{ $product->quantity }}" name="quantity">
                 <input type="hidden" value="{{ $product->costing }}" name="cost">
                 <div class="form-group col-md-2">
-                    <label for="inputAddress">Product Name</label>
-                    <input type="text" class="form-control" id="inputPassword4" name="product[0][name]" value="">
+                  <img  class="img-fluid" id="output" style="width: 50px" alt="">
+                  <label for="inputAddress">Product Image</label>
+                  <input accept="image/*" type="file" class="form-control file" id="inputPassword4" name="product[0][pic]">
+              </div>
+                <div class="form-group col-md-2">
+                    <label for="inputAddress">Product Description</label>
+                    <input type="text" class="form-control" id="inputPassword4" name="product[0][description]" value="">
                 </div>
                 <div class="form-group col-md-2">
                     <label for="inputAddress">Quantity</label>
-                    <input type="text" class="form-control" id="inputPassword4" name="product[0][quantity]" value="">
+                    <input type="text" class="form-control" id="quantity" name="product[0][quantity]" value="">
                 </div>
                 <div class="form-group col-md-2">
+                  <label for="inputAddress">Sub Category</label>
+                  <select class="form-control" name="product[0][sub_category_id]">
+                    @foreach ($sub_category as $item)
+                        <option value="{{ $item->id }}">{{ $item->sub_category }}</option>
+                    @endforeach
+                  </select>
+              </div>
+                <div class="form-group col-md-1">
                     <label for="inputAddress">Brand</label>
                     <select class="form-control" name="product[0][brand]">
                       @foreach ($brand as $item)
@@ -90,7 +142,7 @@
                       @endforeach
                     </select>
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-1">
                   <label for="inputAddress">Color</label>
                   <select class="form-control" name="product[0][color]">
                     @foreach ($color as $item)
@@ -98,7 +150,7 @@
                     @endforeach
                   </select>
               </div>
-              <div class="form-group col-md-2">
+              <div class="form-group col-md-1">
                 <label for="inputAddress">Size</label>
                 <select class="form-control" name="product[0][size]">
                   @foreach ($size as $item)
@@ -106,8 +158,8 @@
                   @endforeach
                 </select>
             </div>
-                <div class="form-group col-md-2">
-                    <a style="margin-top: 30px;" class="btn btn-success" onclick="addproduct()" href="#">Add</a>
+                <div class="form-group col-md-1 butns">
+                    <a style="margin-top: 30px;" class="btn btn-success" onclick="addproduct()" href="#"> <b>+ </b> </a>
                 </div>
             </div>
         </div>
@@ -130,6 +182,32 @@
 @endsection
 
 @section('js')
+
+<script>
+  // $('.form-group').on('input', '#quantity',function(){
+  //   total = document.getElementById('total_sorted').value;
+
+  //   vall = $(this).closest('.form-group').find('input').val();
+
+  //   valo = parseInt(vall);
+
+  //   tot = parseInt(total)
+
+
+  //   $('#total_sorted').val( tot + valo);
+  // });
+</script>
+
+<script>
+  $('#start').on('change', '.file',function(event) {
+    output = $(this).closest('.form-group').find('img');
+    console.log(URL.createObjectURL(event.target.files[0]));
+    output.attr('src',URL.createObjectURL(event.target.files[0]));
+    output.onload = function() {
+      URL.revokeObjectURL(output.src) // free memory
+    }
+  });
+</script>
 
 <script>
   var $table = $('#table')
@@ -284,6 +362,11 @@ $(document).ready(function(){
 
 <script>
     function addproduct(){
+        $('#start input').attr('readonly', 'readonly');
+        $('#start select').attr("disabled", true);
+        $('#start .file').attr("disabled", true);
+        $('.butns').html('<a style="margin-top: 30px;" class="btn btn-primary edit" href="#"> <b>edit </b> </a> <a class="btn btn-danger trash" href="#"><b> X </b></a>')
+
         var brands = {!! json_encode($brand, JSON_HEX_TAG) !!};
         brand = [];
         brands.forEach(function (data){
@@ -300,43 +383,60 @@ $(document).ready(function(){
         colors.forEach(function (data){
           color += ` <option value="`+data.id+`">`+data.color+`</option>` 
         });
+        var sub_categorys = {!! json_encode($sub_category, JSON_HEX_TAG) !!};
+        sub_category = [];
+        sub_categorys.forEach(function (data){
+          sub_category += ` <option value="`+data.id+`">`+data.sub_category+`</option>` 
+        });
 
         index = document.getElementById('index').value;
 
         addindex = document.getElementById('index').value = index + 1;
 
         html = `<div class="form-row">
+          <div class="form-group col-md-2">
+            <img  class="img-fluid" id="output" style="width: 50px" alt="">
+            <label for="inputAddress">Product Image</label>
+            <input accept="image/*" type="file" class="form-control file" id="inputPassword4" name="product[`+index+`][pic]">
+          </div>
         <div class="form-group col-md-2">
-            <label for="inputAddress">Product Name</label>
-            <input type="text" class="form-control" id="inputPassword4" name="product[`+index+`][name]" value="">
+            <label for="inputAddress">Product Description</label>
+            <input type="text" class="form-control" id="inputPassword4" name="product[`+index+`][description]" value="">
         </div>
         <div class="form-group col-md-2">
             <label for="inputAddress">Quantity</label>
-            <input type="text" class="form-control" id="inputPassword4" name="product[`+index+`][quantity]" value="">
+            <input type="text" class="form-control" id="quantity" name="product[`+index+`][quantity]" value="">
         </div>
         <div class="form-group col-md-2">
+          <label for="inputAddress">Sub Category</label>
+          <select class="form-control" name="product[`+index+`][sub_category_id]">
+            `+sub_category+
+            `
+          </select>
+        </div>
+        <div class="form-group col-md-1">
           <label for="inputAddress">Brand</label>
           <select class="form-control" name="product[`+index+`][brand]">
             `+brand+
             `
           </select>
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-1">
           <label for="inputAddress">Color</label>
           <select class="form-control" name="product[`+index+`][color]">
             `+color+
             `
           </select>
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-1">
           <label for="inputAddress">Size</label>
           <select class="form-control" name="product[`+index+`][size]">
             `+size+
             `
           </select>
         </div>
-        <div class="form-group col-md-2">
-            <a class="btn btn-danger trash" href="#">Remove</a>
+        <div class="form-group col-md-1 butns">
+            <a style="margin-top: 30px;" class="btn btn-success" onclick="addproduct()" href="#"> <b>+ </b> </a>
         </div>
         </div>`;
 
@@ -347,6 +447,30 @@ $(document).ready(function(){
     $("#start").on('click','.trash', function () {
 		$(this).closest('.form-row').remove();
 		return false;
+    });
+
+    $("#start").on('click','.edit', function () {
+      $(this).closest(".form-row").find("input").removeAttr('readonly');
+      $(this).closest(".form-row").find("select").removeAttr('disabled');
+      $(this).closest(".form-row").find(".file").removeAttr('disabled');
+      $(this).closest(".form-row").attr('style', 'background: #fff');
+      $(this).closest(".form-row").find("input").css('background', 'transparent');
+      $(this).closest(".form-row").find("select").css('background', 'transparent');
+      $(this).closest(".form-row").find("file").css('background', 'transparent');
+      $(this).closest(".butns").html(`<a style="margin-top: 30px;" class="btn btn-success save" href="#"> <b>save </b> </a> <a class="btn btn-danger trash" href="#"><b> X </b></a>`);
+
+    });
+
+    $("#start").on('click','.save', function () {
+      $(this).closest(".form-row").find("input").attr('readonly','readonly');
+      $(this).closest(".form-row").find("select").attr("disabled", true);
+      $(this).closest(".form-row").find(".file").attr("disabled", true);
+      $(this).closest(".form-row").css('background', '#8e8e8e');
+      $(this).closest(".form-row").find("input").css('background', 'transparent');
+      $(this).closest(".form-row").find("select").css('background', 'transparent');
+      $(this).closest(".form-row").find("file").css('background', 'transparent');
+      $(this).closest(".butns").html(`<a style="margin-top: 30px;" class="btn btn-primary edit" href="#"> <b>edit </b> </a> <a class="btn btn-danger trash" href="#"><b> X </b></a>`);
+
     });
 </script>
 @endsection

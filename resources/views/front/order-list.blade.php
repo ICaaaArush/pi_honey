@@ -14,13 +14,15 @@
         <th scope="col">Delivery Company</th>
         <th scope="col">Delivery Charge</th>
         <th scope="col">Delivery Profit</th>
+        <th scope="col">Processing Percentage</th>
+        <th scope="col">Processing Fee</th>
         <th scope="col">Total</th>
       </tr>
     </thead>
-    @foreach($data as $item)
+    @foreach($data as $key => $item)
     <tbody>
       <tr>
-        <th scope="row">{{$item->id}}</th>
+        <th scope="row">{{$key + 1}}</th>
         <td>{{$item->customer->phone}}</td>
         <td>
           @php
@@ -37,6 +39,8 @@
         <td>{{$item->delivery->company_name}}</td>
         <td>{{$item->delivery_charge}}</td>
         <td>{{$item->delivery_profit}}</td>
+        <td>{{$item->precessing_percentage}}</td>
+        <td>{{$item->precessing_fee}}</td>
         <td>{{$item->total}}</td>
       </tr>
     </tbody>

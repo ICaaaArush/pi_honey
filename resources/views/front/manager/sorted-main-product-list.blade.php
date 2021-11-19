@@ -9,6 +9,7 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
+        <th scope="col">Picture</th>
         <th scope="col">Name</th>
         <th scope="col">Quantity</th>
         <th scope="col">Costing</th>
@@ -19,10 +20,11 @@
         <th scope="col">Edit</th>
       </tr>
     </thead>
-    @foreach($listings as $listing)
+    @foreach($listings as $key => $listing)
     <tbody>
       <tr>
-        <th scope="row">{{$listing->id}}</th>
+        <th scope="row">{{$key + 1}}</th>
+        <td> <img src="{{ asset($listing->pic) }}" class="img-fluid" style="width: 50px" alt=""></td>
         <td>{{$listing->name}}</td>
         <td>{{$listing->quantity}}</td>
         <td>{{$listing->cost}}</td>
@@ -193,9 +195,36 @@
   }
   function barcode(id)
   { 
-    JsBarcode("#barcode", id);
+    $('#details').empty();
 
-    $('.modal').modal('show');
+    $.ajax({
+        url: "/de-get-product-detail/"+id,
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+            html = `<div class="row">
+                      <div class="col-md-6">
+                        Company: `+res.supplier.supplier_name+` <br>
+                        Color: `+res.color.color+` <br>
+                        Size: `+res.size.size+`
+                      </div>
+                      <div class="col-md-6">
+                        Category: `+res.category.category_name+` <br>
+                        Price: `+res.price+`
+                      </div>
+                    </div>`;
+
+                  $('#details').empty();
+
+                  JsBarcode("#barcode", id);
+
+                  
+
+                  $('#details').append(html);
+
+                  $('.modal').modal('show');
+        }
+    });
   }
 </script>
 
@@ -229,6 +258,9 @@
             <div class="row justify-content-center">
               <div class="col-md-8">
                 <svg id="barcode"></svg>
+                <div id="details">
+
+                </div>
               </div>
             </div>
           </div>
